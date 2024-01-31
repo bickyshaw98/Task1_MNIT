@@ -66,6 +66,7 @@ jobs:
     name: delete storage account 
     runs-on: ubuntu-latest
     needs: [dev_deployment]
+    environments: delete
     steps:
       - uses: actions/checkout@v2
 
