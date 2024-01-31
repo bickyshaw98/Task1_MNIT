@@ -6,7 +6,7 @@ name: build storage account bicep
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ deploy_one_bicep_resource ]
+    branches: [ delete_one_bicep_resource ]
   pull_request:
     branches: [ none ]
 
