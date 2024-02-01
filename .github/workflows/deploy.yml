@@ -61,7 +61,7 @@ jobs:
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
           az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-
+#adding delete job
   delete_storage:
     name: delete storage account 
     runs-on: ubuntu-latest
