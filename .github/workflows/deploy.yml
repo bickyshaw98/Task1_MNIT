@@ -66,7 +66,7 @@ jobs:
     name: delete storage account 
     runs-on: ubuntu-latest
     needs: [dev_deployment]
-    environments: delete
+    environment: delete
     steps:
       - uses: actions/checkout@v2
 
@@ -77,4 +77,4 @@ jobs:
 
       - name: 'delete storage account'
         run: |
-          az storage account delete --resource-group demo-rg --name st12mskuexszw4 --yes
+          az storage account delete --resource-group demo-rg --name mystorageaccount15041995 --yes
