@@ -75,4 +75,4 @@ jobs:
           creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
       - name: 'delete storage account'
         run: |
-          az storage account delete --resource-group demo-rg --name mystorageaccount15041995 --yes
+          az group delete --name demo-rg --yes --no-wait
