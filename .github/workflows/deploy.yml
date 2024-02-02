@@ -68,13 +68,15 @@ jobs:
     needs: [dev_deployment]
     environments: delete
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
 
-      - name: 'delete storage account'
+      - name: 'delete storage account bicep'
+        working-directory: '${{github.workspace}}/actions/bicep'
       run: |
         az group delete --name demo-rg --template-file './storage.bicep' --parameters @parameters.json --yes --no-wait
