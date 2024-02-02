@@ -76,7 +76,7 @@ jobs:
         with:
             creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
 
-
+#added a comment
       - name: 'delete storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
