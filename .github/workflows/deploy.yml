@@ -65,7 +65,7 @@ jobs:
   delete_storage:
     name: delete storage account 
     runs-on: ubuntu-latest
-    needs: [dev_deployment]
+#    needs: [dev_deployment]
     environment: delete
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
