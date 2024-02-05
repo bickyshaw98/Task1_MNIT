@@ -80,6 +80,6 @@ jobs:
       - name: 'delete storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az storage account delete --name $resourceNames.storageAccountName --resource-group $resourceNames.resourceGroupName --yes
+          az storage account delete --name $resourceNames.storageAccountName --resource-group $resourceNames.AZURE_RESOURCEGROUP_NAME --yes
         
 
