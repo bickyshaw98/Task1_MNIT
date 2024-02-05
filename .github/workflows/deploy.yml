@@ -80,9 +80,6 @@ jobs:
       - name: 'delete storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az resource delete --ids $(az resource show --name mystorageaccount15041995 --resource-group demo-rg --resource-type Microsoft.Storage/storageAccounts --query id --output tsv) 
-          az resource delete --ids $(az resource show --name myvnet --resource-group demo-rg --resource-type Microsoft.Network/virtualNetworks --query id --output tsv) 
-
-          az resource delete --ids $(az resource show --name mysubnet --resource-group demo-rg --resource-type Microsoft.Network/virtualNetworks/subnets --parent myvnet --query id --output tsv) 
+          az storage account delete --name $resourceNames.storageAccountName --resource-group $resourceNames.resourceGroupName --yes
         
 
