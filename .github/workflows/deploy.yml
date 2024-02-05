@@ -39,7 +39,6 @@ jobs:
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
 #         az deployment group create --what-if --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-          
           az storage account delete --name $(jq -r '.storageAccountName' parameters.json) --resource-group ${{ env.AZURE_RESOURCEGROUP_NAME }} --yes
 #  dev_deployment:
 #    name: dev deployment 
