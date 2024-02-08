@@ -75,8 +75,6 @@ jobs:
         uses: azure/login@v1
         with:
             creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-
-
       - name: 'delete storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
