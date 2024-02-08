@@ -90,7 +90,7 @@ jobs:
                                    
                   echo "  Storage Account: $sa"
                   if [[ " $sa " =~ " mystorageaccount15041995 " ]]; then
-                      echo "  Storage Account to delete found: mystorageaccount15041995"
+                      echo "  Storage Account to delete found: $rg"
                       az storage account delete --name "mystorageaccount15041995" --resource-group "$rg" --yes
                   else
                       echo "  Storage Account to delete not found in $rg"
