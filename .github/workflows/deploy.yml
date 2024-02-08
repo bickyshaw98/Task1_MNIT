@@ -80,22 +80,17 @@ jobs:
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
           mapfile -t resourceGroups < <(az group list --query "[].name" --output tsv)
-          
-          # Iterate through the array
+      
           for rg in "${resourceGroups[@]}"; do
               echo "Resource Group: $rg"
           
-              # List storage accounts in the current resource group
               mapfile -t storageAccounts < <(az storage account list --resource-group "$rg" --query "[].name" --output tsv)
           
-              # Iterate through the storage accounts array
               for sa in "${storageAccounts[@]}"; do
                                    
                   echo "  Storage Account: $sa"
                   if [[ " $sa " =~ " mystorageaccount15041995 " ]]; then
                       echo "  Storage Account to delete found: mystorageaccount15041995"
-    
-        #Add your logic to delete the specific storage account
                       az storage account delete --name "mystorageaccount15041995" --resource-group "$rg" --yes
                   else
                       echo "  Storage Account to delete not found in $rg"
