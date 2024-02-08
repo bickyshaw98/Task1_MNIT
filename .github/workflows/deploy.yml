@@ -80,6 +80,6 @@ jobs:
       - name: 'delete storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az storage account delete
+          az storage account list
         
 
