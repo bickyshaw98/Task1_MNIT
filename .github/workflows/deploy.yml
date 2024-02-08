@@ -80,6 +80,7 @@ jobs:
       - name: 'delete storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az storage account list
+          az group list --query "[].name" --output tsv
+
         
 
