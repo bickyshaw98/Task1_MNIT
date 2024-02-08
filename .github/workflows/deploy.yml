@@ -75,8 +75,8 @@ jobs:
         uses: azure/login@v1
         with:
             creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-            
-      - name: 'delete storage account bicep'
+
+      - name: 'delete storage account mystorageaccount15041995'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
           mapfile -t resourceGroups < <(az group list --query "[].name" --output tsv)
