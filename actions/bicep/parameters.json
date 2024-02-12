@@ -1,19 +1,25 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-      "storageAccountName": {
-        "value": "mystorageaccount15041995"
-      },
-      "location": {
-        "value": "westeurope"
-      },
-      "vnetName": {
-        "value": "myvnet"
-      },
-      "subnetName": {
-        "value": "mysubnet"
-      }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccounts": {
+      "value": [
+        {
+          "name": "mystorageaccount15041995",
+          "location": "westeurope"
+        },
+        {
+          "name": "anotherstorageaccount",
+          "location": "eastus"
+        }
+        // Add more storage accounts as needed
+      ]
+    },
+    "vnetName": {
+      "value": "myvnet"
+    },
+    "subnetName": {
+      "value": "mysubnet"
     }
   }
-  
+}
