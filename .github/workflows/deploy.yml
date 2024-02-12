@@ -90,7 +90,7 @@ jobs:
                                    
                   echo "  Storage Account: $sa"
                   if [[ " $sa " =~ "${{ steps.read-parameters.outputs.storageAccountName }}" ]]; then
-                      echo "  Storage Account to delete found: $rg"
+                      echo "  Storage Account to delete found: ${{ steps.read-parameters.outputs.storageAccountName }}"
                       az storage account delete --name "${{ steps.read-parameters.outputs.storageAccountName }}" --resource-group "$rg" --yes
                   else
                       echo "  Storage Account to delete not found in $rg"
