@@ -76,7 +76,7 @@ jobs:
         with:
             creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
 
-      - name: 'delete storage account mystorageaccount15041995'
+      - name: 'delete a storage account'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
           mapfile -t resourceGroups < <(az group list --query "[].name" --output tsv)
@@ -89,9 +89,9 @@ jobs:
               for sa in "${storageAccounts[@]}"; do
                                    
                   echo "  Storage Account: $sa"
-                  if [[ " $sa " =~ " mystorageaccount15041995 " ]]; then
+                  if [[ " $sa " =~ "${{ steps.read-parameters.outputs.storageAccountName }}" ]]; then
                       echo "  Storage Account to delete found: $rg"
-                      az storage account delete --name "mystorageaccount15041995" --resource-group "$rg" --yes
+                      az storage account delete --name "${{ steps.read-parameters.outputs.storageAccountName }}" --resource-group "$rg" --yes
                   else
                       echo "  Storage Account to delete not found in $rg"
                   fi
