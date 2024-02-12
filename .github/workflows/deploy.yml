@@ -89,8 +89,7 @@ jobs:
           
               for sa in "${storageAccounts[@]}"; do
                                    
-                  echo "  Storage Account: $sa"
-                  echo "  storage account to delete $storageAccountName"
+                  echo "  Storage Account Found: $sa, Storage Account To be deleted: $storageAccountName"
                   if [[ "$sa" == $storageAccountName ]]; then
                       echo "  Storage Account to delete found: $storageAccountName"
                       az storage account delete --name $storageAccountName --resource-group "$rg" --yes
