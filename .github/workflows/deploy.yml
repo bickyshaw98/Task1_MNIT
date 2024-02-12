@@ -79,6 +79,7 @@ jobs:
       - name: 'delete a storage account'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
+          storageAccountName=$(jq -r '.parameters.storageAccountName.value' parameters.json)
           mapfile -t resourceGroups < <(az group list --query "[].name" --output tsv)
       
           for rg in "${resourceGroups[@]}"; do
@@ -89,10 +90,10 @@ jobs:
               for sa in "${storageAccounts[@]}"; do
                                    
                   echo "  Storage Account: $sa"
-                  echo "  ${{ steps.read-parameters.outputs.storageAccountName }}"
-                  if [[ "$sa" == ${{ steps.read-parameters.outputs.storageAccountName }} ]]; then
-                      echo "  Storage Account to delete found: ${{ steps.read-parameters.outputs.storageAccountName }}"
-                      az storage account delete --name "${{ steps.read-parameters.outputs.storageAccountName }}" --resource-group "$rg" --yes
+                  echo "  storage account to delete $storageAccountName"
+                  if [[ "$sa" == $storageAccountName ]]; then
+                      echo "  Storage Account to delete found: $storageAccountName"
+                      az storage account delete --name $storageAccountName --resource-group "$rg" --yes
                   else
                       echo "  Storage Account to delete not found in $rg"
                   fi
