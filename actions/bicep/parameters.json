@@ -14,12 +14,6 @@
         }
         // Add more storage accounts as needed
       ]
-    },
-    "vnetName": {
-      "value": "myvnet"
-    },
-    "subnetName": {
-      "value": "mysubnet"
     }
   }
 }
