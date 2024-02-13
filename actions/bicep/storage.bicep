@@ -1,4 +1,5 @@
 // storage.bicep
+//deploying storage account and app service
 
 param storageAccountName string
 param appServicePlanName string
