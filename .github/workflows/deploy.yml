@@ -1,6 +1,6 @@
 
 # This is a basic workflow to help you deploy one bicep resource.
-name: build storage account bicep
+name: deploying storage account
 
 
 # Controls when the workflow will run
@@ -60,7 +60,7 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az bicep validate --file './storage.bicep'
+          az bicep lint --file './storage.bicep'
 
   bicep_what-if:
     name: what-if 
