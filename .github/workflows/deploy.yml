@@ -80,6 +80,9 @@ jobs:
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
           storageAccountName=$(jq -r '.parameters.storageAccountName.value' parameters.json)
+          resourceGroupName=$(jq -r '.parameters.resourceGroupName.value' parameters.json)
+          appServicePlanName=$(jq -r '.parameters.appServicePlanName.value' parameters.json)
+          webAppName=$(jq -r '.parameters.webAppName.value' parameters.json)
           mapfile -t resourceGroups < <(az group list --query "[].name" --output tsv)
       
           for rg in "${resourceGroups[@]}"; do
