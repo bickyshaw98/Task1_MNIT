@@ -1,10 +1,12 @@
+// storage.bicep
+//deploying storage account and app service
 
 param storageAccountName string
+param appServicePlanName string
+param webAppName string
 param location string
-param vnetName string
-param subnetName string
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   name: storageAccountName
   location: location
   kind: 'StorageV2'
@@ -13,20 +15,26 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   }
 }
 
-resource vnet 'Microsoft.Network/virtualNetworks@2021-02-01' = {
-  name: vnetName
+resource appServicePlan 'Microsoft.Web/serverfarms@2019-08-01' = {
+  name: appServicePlanName
   location: location
+  sku: {
+    name: 'F1'
+    tier: 'Free'
+    size: 'F1'
+  }
   properties: {
-    addressSpace: {
-      addressPrefixes: ['10.0.0.0/16']
-    }
+    reserved: true
   }
 }
 
-resource subnet 'Microsoft.Network/virtualNetworks/subnets@2021-02-01' = {
-  name: subnetName
-  parent: vnet
+resource webApp 'Microsoft.Web/sites@2019-08-01' = {
+  name: webAppName
+  location: location
+  kind: 'app'
   properties: {
-    addressPrefix: '10.0.0.0/24'
+    serverFarmId: appServicePlan.id
   }
 }
+
+output webAppUrl string = webApp.properties.defaultHostName
