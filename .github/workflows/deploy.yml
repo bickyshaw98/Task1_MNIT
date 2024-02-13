@@ -15,8 +15,8 @@ on:
 
 
 env:
-  AZURE_RESOURCEGROUP_NAME: $resourceGroupName
-  ENVIRONMENT_LOCATION: $location
+  AZURE_RESOURCEGROUP_NAME: resourceGroupName=$(jq -r '.parameters.resourceGroupName.value' parameters.json)
+  ENVIRONMENT_LOCATION: location=$(jq -r '.parameters.location.value' parameters.json)
 
 jobs:
  # This workflow contains a single job called "build"
