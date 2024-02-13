@@ -18,6 +18,7 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2019-08-01' = {
   name: appServicePlanName
   location: location
   sku: {
+    name: 'F1'
     tier: 'Free'
     size: 'F1'
   }
