@@ -15,8 +15,8 @@ on:
 
 
 env:
-  AZURE_RESOURCEGROUP_NAME: demo-rg
-  ENVIRONMENT_LOCATION: EastUS
+  AZURE_RESOURCEGROUP_NAME: $resourceGroupName
+  ENVIRONMENT_LOCATION: $location
 
 jobs:
  # This workflow contains a single job called "build"
@@ -38,7 +38,7 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az deployment group create --what-if --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+          az deployment group create --what-if --resource-group $resourceGroupName --template-file './storage.bicep' --parameters @parameters.json
 
   dev_deployment:
     name: dev deployment 
@@ -60,4 +60,47 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+          az deployment group create --resource-group $resourceGroupName --template-file './storage.bicep' --parameters @parameters.json
+
+  delete_storage:
+    name: delete storage account 
+    runs-on: ubuntu-latest
+    needs: [dev_deployment]
+    environment: delete
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+
+      - name: 'delete a storage account'
+        working-directory: '${{github.workspace}}/actions/bicep'
+        run: |
+          storageAccountName=$(jq -r '.parameters.storageAccountName.value' parameters.json)
+          mapfile -t resourceGroups < <(az group list --query "[].name" --output tsv)
+      
+          for rg in "${resourceGroups[@]}"; do
+              echo "Resource Group: $rg"
+          
+              mapfile -t storageAccounts < <(az storage account list --resource-group "$rg" --query "[].name" --output tsv)
+          
+              for sa in "${storageAccounts[@]}"; do
+                                   
+                  echo "  Storage Account Found: $sa, Storage Account To be deleted: $storageAccountName"
+                  if [[ "$sa" == $storageAccountName ]]; then
+                      echo "  Storage Account to delete found: $storageAccountName"
+                      az storage account delete --name $storageAccountName --resource-group "$rg" --yes
+                  else
+                      echo "  Storage Account to delete not found in $rg"
+                  fi
+          
+                  # Add your logic to delete storage accounts here
+                  # az storage account delete --name "$sa" --resource-group "$rg" --yes
+              done
+          done
+          az appservice plan delete --name $appServicePlanName --resource-group $resourceGroupName --yes
+          az webapp delete --name $webAppName --resource-group $resourceGroupName --yes
+          

@@ -2,18 +2,20 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "storageAccounts": {
-      "value": [
-        {
-          "name": "mystorageaccount15041995",
-          "location": "westeurope"
-        },
-        {
-          "name": "anotherstorageaccount",
-          "location": "eastus"
-        }
-        // Add more storage accounts as needed
-      ]
+    "storageAccountName": {
+      "value": "mystorage15041995"
+    },
+    "resourceGroupName": {
+      "value": "demo-rg"
+    },
+    "location": {
+      "value": "west Europe"
+    },
+    "appServicePlanName": {
+      "value": "myappserviceplan"
+    },
+    "webAppName": {
+      "value": "mywebappname15041995"
     }
   }
 }
