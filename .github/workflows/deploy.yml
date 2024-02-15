@@ -21,8 +21,8 @@ env:
 
 jobs:
   # This workflow contains a single job called "build"
-  bicep_lint:
-    name: lint 
+  bicep_build:
+    name: build 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -41,68 +41,4 @@ jobs:
         run: |
           az bicep build --file './storage.bicep'
   
-  bicep_validate:
-    name: validate
-    needs: bicep_lint
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-
-      - name: 'deploy storage account bicep'
-        working-directory: '${{github.workspace}}/actions/bicep'
-        run: |
-          az deployment group validate --resource-group demo-rg --template-file './storage.bicep' --parameters location='EastUS' storage_account_name='yourstorage15041995'
-
-
-  bicep_what-if:
-    name: what-if 
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    needs: [bicep_validate]
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-
-      - name: 'deploy storage account bicep'
-        working-directory: '${{github.workspace}}/actions/bicep'
-        run: |
-          az deployment group create --what-if --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-  
-  dev_deployment:
-    name: dev deployment 
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    needs: [bicep_what-if]
-    environment: dev
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-
-      - name: 'deploy storage account bicep'
-        working-directory: '${{github.workspace}}/actions/bicep'
-        run: |
-          az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
   
