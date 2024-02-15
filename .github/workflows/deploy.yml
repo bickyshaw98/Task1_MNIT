@@ -59,7 +59,7 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az bicep lint -f './storage.bicep' --stdout 
+          az bicep lint -f './storage.bicep'
 
   
   
