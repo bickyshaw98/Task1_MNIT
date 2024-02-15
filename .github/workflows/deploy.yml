@@ -60,7 +60,7 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az bicep lint --file './storage.bicep'
+          az deployment group validate --resource-group demo-rg --template-file './storage.bicep'
 
   bicep_what-if:
     name: what-if 
