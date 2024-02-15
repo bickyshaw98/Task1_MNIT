@@ -39,7 +39,7 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az bicep build --file './storage.bicep'
+          az bicep build -f ./actions/bicep/storage.bicep --stdout
 
   bicep_linter:
     name: lint 
@@ -59,7 +59,7 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az bicep lint -f './storage.bicep' --stdout --config-file './bicepconfig.json'
+          az bicep lint -f './storage.bicep' --stdout 
 
   
   
