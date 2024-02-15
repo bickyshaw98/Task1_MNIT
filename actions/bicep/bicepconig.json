@@ -1,4 +1,4 @@
 {
-    "bicep.use_binary_from_path": false
+    "bicep.use_binary_from_path": true
   }
   
