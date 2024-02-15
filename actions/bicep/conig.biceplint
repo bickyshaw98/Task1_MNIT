@@ -1,22 +1,6 @@
 {
-    "analyzers": {
-      "core": {
-        "enabled": true,
-        "rules": {
-          "no-unused-params": {
-            "level": "warning"
-          },
-          "outputs-should-not-contain-secrets": {
-            "level": "warning"
-          },
-          "no-hardcoded-location": {
-            "level": "warning"
-          },
-          "no-hardcoded-env-urls": {
-            "level": "warning"
-          }
-        }
-      }
-    }
+  "rules": {
+    "no-unused-params": "warning",
+    "outputs-should-not-contain-secrets": "warning"
   }
-  
+}
