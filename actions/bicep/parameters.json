@@ -7,6 +7,9 @@
       },
       "location": {
         "value": "west europe"
+      },
+      "appServicePlanName": {
+        "value": "myappserviceplan"
       }
     }
   }

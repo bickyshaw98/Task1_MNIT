@@ -1,4 +1,16 @@
 {
-    "bicep.use_binary_from_path": true
+    "analyzers": {
+      "core": {
+        "enabled": true,
+        "rules": {
+          "no-unused-params": {
+            "level": "warning"
+          },
+          "outputs-should-not-contain-secrets": {
+            "level": "warning"
+          }
+        }
+      }
+    }
   }
   
