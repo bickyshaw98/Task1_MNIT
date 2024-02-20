@@ -39,13 +39,13 @@ jobs:
     
         - name: Install PSRule and Azure Bicep
           run: |
-            Install-Module -Name PSRule -Force -AllowClobber -Scope CurrentUser
-            Install-Module -Name Microsoft.Bicep -Force -AllowClobber -Scope CurrentUser
+            pwsh -Command "Install-Module -Name PSRule -Force -AllowClobber -Scope CurrentUser"
+            pwsh -Command "Install-Module -Name Microsoft.Bicep -Force -AllowClobber -Scope CurrentUser"
     
         - name: Run PSRule Checks
           run: |
             $bicepFiles = Get-ChildItem -Path . -Recurse -Filter *.bicep
             $bicepFiles | ForEach-Object {
-                psrule -Path $_.FullName -Include *.bicep
+                pwsh -Command "psrule -Path $_.FullName -Include *.bicep"
             }
     
