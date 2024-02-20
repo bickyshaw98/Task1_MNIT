@@ -37,15 +37,22 @@ jobs:
             echo "export PATH=$HOME/pwsh/pwsh-${pwsh_version}-linux-x64:\$PATH" >> $HOME/.bashrc
             export PATH=$HOME/pwsh/pwsh-${pwsh_version}-linux-x64:$PATH
     
-        - name: Install PSRule and Azure Bicep
+        - name: Install PSRule
+          run: pwsh -Command "Install-Module -Name PSRule -Force -AllowClobber -Scope CurrentUser -SkipPublisherCheck"
+    
+        - name: Install Microsoft.Bicep
           run: |
-            pwsh -Command "Install-Module -Name PSRule -Force -AllowClobber -Scope CurrentUser"
-            pwsh -Command "Install-Module -Name Microsoft.Bicep -Force -AllowClobber -Scope CurrentUser"
+            bicep_version='0.4.1012'
+            bicep_url="https://github.com/Azure/bicep/releases/download/v${bicep_version}/bicep-linux-x64"
+            curl -L $bicep_url -o $HOME/bicep
+            chmod +x $HOME/bicep
+            echo "export PATH=$HOME:\$PATH" >> $HOME/.bashrc
+            export PATH=$HOME:$PATH
     
         - name: Run PSRule Checks
           run: |
-            $bicepFiles = Get-ChildItem -Path . -Recurse -Filter *.bicep
-            $bicepFiles | ForEach-Object {
-                pwsh -Command "psrule -Path $_.FullName -Include *.bicep"
-            }
-    
+            bicepFiles=$(find . -name "*.bicep" -type f)
+            for file in $bicepFiles; do
+              pwsh -Command "psrule -Path $file"
+            done
+              
