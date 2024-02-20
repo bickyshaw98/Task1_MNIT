@@ -8,7 +8,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   azure_login:
-    name: build 
+    name: azure_login 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -21,27 +21,31 @@ jobs:
         uses: azure/login@v1
         with:
             creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-
+  
   psrule-check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Set up PowerShell
-        uses: actions/setup-powershell@v2
-        with:
-          pwsh-version: '7.x'
-          repository: actions/setup-powershell
-
-      - name: Install PSRule and Azure Bicep
-        run: |
-          Install-Module -Name PSRule -Force -AllowClobber -Scope CurrentUser
-          Install-Module -Name Microsoft.Bicep -Force -AllowClobber -Scope CurrentUser
-
-      - name: Run PSRule Checks
-        run: |
-          $bicepFiles = Get-ChildItem -Path . -Recurse -Filter *.bicep
-          $bicepFiles | ForEach-Object {
-              psrule -Path $_.FullName -Include *.bicep
-          }
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v2
+    
+        - name: Set up PowerShell
+          run: |
+            pwsh_version='7.2.1'
+            pwsh_url="https://github.com/PowerShell/PowerShell/releases/download/v${pwsh_version}/powershell-${pwsh_version}-linux-x64.tar.gz"
+            mkdir -p $HOME/pwsh
+            curl -L $pwsh_url | tar -xz -C $HOME/pwsh
+            echo "export PATH=$HOME/pwsh/pwsh-${pwsh_version}-linux-x64:\$PATH" >> $HOME/.bashrc
+            export PATH=$HOME/pwsh/pwsh-${pwsh_version}-linux-x64:$PATH
+    
+        - name: Install PSRule and Azure Bicep
+          run: |
+            Install-Module -Name PSRule -Force -AllowClobber -Scope CurrentUser
+            Install-Module -Name Microsoft.Bicep -Force -AllowClobber -Scope CurrentUser
+    
+        - name: Run PSRule Checks
+          run: |
+            $bicepFiles = Get-ChildItem -Path . -Recurse -Filter *.bicep
+            $bicepFiles | ForEach-Object {
+                psrule -Path $_.FullName -Include *.bicep
+            }
+    
