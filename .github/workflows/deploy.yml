@@ -1,9 +1,8 @@
 name: PSRule Check
 #
 on:
-  push:
-    paths:
-        - 'bicep/**/*.bicep'
+  push: 
+    branches: [psrule_implementation]
 jobs:
   psrule-check:
     runs-on: ubuntu-latest
