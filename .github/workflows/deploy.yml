@@ -1,10 +1,8 @@
 name: PSRule Check
-#
+
 on:
   push:
     branches: [ psrule_implementation ]
-    paths:
-        - 'bicep/**/*.bicep'
 
 jobs:
   psrule-check:
