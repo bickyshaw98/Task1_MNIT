@@ -9,10 +9,10 @@ jobs:
     
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: checkout@v2
 
       - name: Set up PowerShell
-        uses: actions/setup-powershell@v2
+        uses: setup-powershell@v2
         with:
           pwsh-version: '7.x'
 
