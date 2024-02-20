@@ -1,5 +1,5 @@
 name: PSRule Check
-
+#
 on:
   push:
     branches: [ psrule_implementation ]
