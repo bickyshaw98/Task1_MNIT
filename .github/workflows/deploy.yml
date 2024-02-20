@@ -1,1 +1,33 @@
-#locking push to the branch..
+name: PSRule Check
+
+on:
+  push:
+    branches: [ psrule_implementation ]
+    paths:
+        - 'bicep/**/*.bicep'
+
+jobs:
+  psrule-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up PowerShell
+        uses: actions/setup-powershell@v2
+        with:
+          pwsh-version: '7.x'
+
+      - name: Install PSRule and Azure Bicep
+        run: |
+          Install-Module -Name PSRule -Force -AllowClobber -Scope CurrentUser
+          Install-Module -Name Microsoft.Bicep -Force -AllowClobber -Scope CurrentUser
+
+      - name: Run PSRule Checks
+        run: |
+          # Assuming your Bicep files are in the 'bicep' directory
+          $bicepFiles = Get-ChildItem -Path bicep -Recurse -Filter *.bicep
+          $bicepFiles | ForEach-Object {
+              psrule -Path $_.FullName -Include *.bicep
+          }
