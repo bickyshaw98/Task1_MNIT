@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-powershell@v2
         with:
           pwsh-version: '7.x'
+          repository: actions/setup-powershell
 
       - name: Install PSRule and Azure Bicep
         run: |
