@@ -20,19 +20,12 @@ jobs:
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
         az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-    - name: Install jq
-      run: sudo apt-get install jq
-    
-    - name: Debug az command
-      run: az storage account show --name "$STORAGE_ACCOUNT_NAME" --output ./actions/bicep/parameters.json
-    
-    
     - name: Post-deployment check
       run: |
-        STORAGE_ACCOUNT_NAME=$(jq -r '.storageAccountName.value' ./actions/bicep/parameters.json)
+
         echo "Printing storage account name: $STORAGE_ACCOUNT_NAME"
-        az storage account show --name "$STORAGE_ACCOUNT_NAME" --query "provisioningState" --output tsv
-        if [ "$(az storage account show --name "$STORAGE_ACCOUNT_NAME" --query "provisioningState" --output tsv)" = "Succeeded" ]; then
+        az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv
+        if [ "$(az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv)" = "Succeeded" ]; then
           echo "Deployment succeeded"
         else
           echo "Deployment failed"
