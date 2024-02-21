@@ -23,8 +23,9 @@ jobs:
         sleep 60
     - name: Post-deployment check
       run: |
-        az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv
-        if [ "$(az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv)" = "Succeeded" ]; then
+        STORAGE_ACCOUNT_NAME=$(jq -r '.storageAccountName.value' parameters.json)
+        az storage account show --name STORAGE_ACCOUNT_NAME --query "provisioningState" --output tsv
+        if [ "$(az storage account show --name STORAGE_ACCOUNT_NAME --query "provisioningState" --output tsv)" = "Succeeded" ]; then
           echo "Deployment succeeded"
         else
           echo "Deployment failed"
