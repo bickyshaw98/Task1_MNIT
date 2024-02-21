@@ -1,0 +1,41 @@
+#https://github.com/microsoft/PSRule/blob/main/docs/concepts/PSRule/en-US/about_PSRule_Options.md#loggingrulefail
+#https://github.com/Azure/PSRule.Rules.Azure/discussions/854
+
+
+name: Analyze templates
+on:
+  push:
+    branches:
+    - psrule_implementation
+  pull_request:
+    branches:
+    - psrule_implementation
+env:
+  PSRULE_AZURE_BICEP_PATH: '/usr/local/bin/bicep'
+  PSRULE_OUTPUT_JOBSUMMARYPATH: reports/summary.md
+  PSRULE_EXECUTION_INVARIANTCULTURE: Warn
+  PSRULE_OUTPUT_AS: Summary
+  PSRULE_OUTPUT_FORMAT: Csv
+jobs:
+  analyze_arm:
+    name: Analyze templates
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Analyze Azure resources using PSRule for Azure
+    - name: Analyze Azure template files
+      uses: microsoft/ps-rule@v2.9.0
+      with:
+        modules: 'PSRule.Rules.Azure'
+        outputFormat: Sarif
+        outputPath: reports/ps-rule-results.sarif
+        inputType: 'repository'
+        source: '.ps-rule/'
+        Baseline: 'Azure.GA_2023_12'
+
+           
+        
+    
+          
