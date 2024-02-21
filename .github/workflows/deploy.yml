@@ -1,82 +1,31 @@
-# This is a basic workflow to help you deploy one bicep resource.
-name: build storage account bicep
+name: Deploy Azure Storage Account
 
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ deploy_one_bicep_resource ]
-  pull_request:
-    branches: [ none ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-
-env:
-  AZURE_RESOURCEGROUP_NAME: demo-rg
-  ENVIRONMENT_LOCATION: EastUS
+    branches:
+      - postdeployment_check  
 
 jobs:
-  # This workflow contains a single job called "build"
-  bicep_build:
-    name: bicep build 
-    # The type of runner that the job will run on
+  deploy:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-
-      - name: 'deploy storage account bicep'
-        working-directory: '${{github.workspace}}/actions/bicep'
-        run: |
-          az deployment group create --what-if --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-  analyze_arm:
-    name: Analyze templates
-    runs-on: ubuntu-latest
-    needs: [bicep_build]
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    # Analyze Azure resources using PSRule for Azure
-    - name: Analyze Azure template files
-      uses: microsoft/ps-rule@v2.9.0
+    - name: Login to Azure
+      uses: azure/login@v1
       with:
-        modules: 'PSRule.Rules.Azure'
-        outputFormat: Sarif
-        outputPath: reports/ps-rule-results.sarif
-        inputType: 'repository'
-        source: '.ps-rule/'
-        Baseline: 'Azure.GA_2023_12'
-  dev_deployment:
-    name: dev deployment 
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-    needs: [analyze_arm]
-    environment: dev
+        creds: ${{ secrets.AZURE_SPN_CREDENTIALS }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+    - name: Deploy Bicep file
+      run: |
+        az deployment group create --resource-group YourResourceGroupName --template-file ./storage.bicep --parameters @parameters.json
 
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-
-      - name: 'deploy storage account bicep'
-        working-directory: '${{github.workspace}}/actions/bicep'
-        run: |
-          az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-
-  
+    - name: Post-deployment check
+      run: |
+        az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv
+        if [ "$(az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv)" = "Succeeded" ]; then
+          echo "Deployment succeeded"
+        else
+          echo "Deployment failed"
+          exit 1
+        fi

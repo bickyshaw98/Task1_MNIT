@@ -1,18 +1,15 @@
-@description('storage account name')
-param storage_account_name string
+param storageAccountName string
+param location string = resourceGroup().location
+param sku string = 'Standard_LRS'
 
-@description('storage account location')
-param location string
-
-
-resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
-  name: storage_account_name
+resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
+  name: storageAccountName
   location: location
-  kind: 'StorageV2'
-  properties:{
-    minimumTlsVersion: 'TLS1_2'
-  }
   sku: {
-    name: 'Premium_LRS'
+    name: sku
+  }
+  kind: 'StorageV2'
+  properties: {
+    supportsHttpsTrafficOnly: true
   }
 }
