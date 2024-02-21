@@ -20,14 +20,12 @@ jobs:
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
         az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-        sleep 60
     - name: Install jq
       run: sudo apt-get install jq
-    - name: Print parameters.json content
-      run: cat ./actions/bicep/parameters.json
     
-    - name: Debug jq command
-      run: jq '.' ./actions/bicep/parameters.json
+    - name: Debug az command
+      run: az storage account show --name "$STORAGE_ACCOUNT_NAME" --output json
+    
     
     - name: Post-deployment check
       run: |
