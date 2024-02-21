@@ -24,7 +24,7 @@ jobs:
       run: sudo apt-get install jq
     
     - name: Debug az command
-      run: az storage account show --name "$STORAGE_ACCOUNT_NAME" --output json
+      run: az storage account show --name "$STORAGE_ACCOUNT_NAME" --output ./actions/bicep/parameters.json
     
     
     - name: Post-deployment check
