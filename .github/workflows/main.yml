@@ -33,9 +33,4 @@ jobs:
         outputPath: reports/ps-rule-results.sarif
         inputType: 'repository'
         source: '.ps-rule/'
-        Baseline: 'Azure.GA_2023_12'
-
-           
-        
-    
-          
+        Baseline: 'Azure.GA_2023_12'          
