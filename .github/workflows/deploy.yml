@@ -24,7 +24,7 @@ jobs:
     - name: Post-deployment check
       run: |
         STORAGE_ACCOUNT_NAME=$(jq -r '.storageAccountName.value' ./actions/bicep/parameters.json)
-        echo "printing storage account name $STORAGE_ACCOUNT_NAME"
+        echo "Printing storage account name: $STORAGE_ACCOUNT_NAME"
         az storage account show --name "$STORAGE_ACCOUNT_NAME" --query "provisioningState" --output tsv
         if [ "$(az storage account show --name "$STORAGE_ACCOUNT_NAME" --query "provisioningState" --output tsv)" = "Succeeded" ]; then
           echo "Deployment succeeded"
