@@ -3,8 +3,7 @@ name: Deploy Azure Storage Account
 
 on:
   push:
-    branches:
-      - postdeployment_check  
+    branches: [ delete_one_bicep_resource ]
 
 jobs:
   deploy:
