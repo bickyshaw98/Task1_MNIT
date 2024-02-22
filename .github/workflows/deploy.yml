@@ -21,9 +21,10 @@ jobs:
       run: |
         az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
     - name: Post-deployment check
+      working-directory: '${{github.workspace}}/actions/bicep'
       run: |
         # Read the storage account name from the parameters file
-        account_name=$(jq -r '.parameters.storageAccountName.value' parameters.json)
+        account_name=$(jq -r '.parameters.storageAccountName.value' './parameters.json')
         az storage account show --name $account_name --query "provisioningState" --output tsv
         provisioning_state=$(az storage account show --name $account_name --query "provisioningState" --output tsv)
 
