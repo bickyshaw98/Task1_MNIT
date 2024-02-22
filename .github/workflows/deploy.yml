@@ -20,6 +20,7 @@ jobs:
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
         az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+        sleep 60
     - name: Post-deployment check
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
