@@ -84,14 +84,14 @@ jobs:
           appServicePlanName=$(jq -r '.parameters.appServicePlanName.value' ./parameters.json)
           webAppName=$(jq -r '.parameters.webAppName.value' ./parameters.json)
           
-          # Delete the Web App
-          az webapp delete --name $webAppName --resource-group demo-rg -y
-          
           # Delete the App Service Plan
-          az appservice plan delete --name $appServicePlanName --resource-group demo-rg -y
+          az appservice plan delete --name $appServicePlanName --resource-group demo-rg --no-wait
+
+          # Delete the Web App
+          az webapp delete --name $webAppName --resource-group demo-rg --no-wait
           
           # Optionally, delete the Storage Account
-          az storage account delete --name $storageAccountName --resource-group demo-rg -y
+          az storage account delete --name $storageAccountName --resource-group demo-rg --no-wait
         
           
           
