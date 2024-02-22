@@ -85,10 +85,10 @@ jobs:
           webAppId=$(az webapp show --name $webAppName --resource-group demo-rg --query "id" --output tsv)
           
           # Delete the resources directly by their IDs
-          az resource delete --ids $webAppId --yes --no-wait
-          az resource delete --ids $appServicePlanId --yes --no-wait
+          az resource delete --ids $webAppId --resource-group demo-rg --yes --no-wait
+          az resource delete --ids $appServicePlanId --resource-group demo-rg --yes --no-wait
           sleep 60
-          az resource delete --ids $storageAccountId --yes --no-wait
-          
+          az resource delete --ids $storageAccountId --resource-group demo-rg --yes --no-wait
+
           
           
