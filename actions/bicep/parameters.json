@@ -4,6 +4,9 @@
   "parameters": {
     "storageAccountName": {
       "value": "storageaccount15041995"
+    },
+    "location": {
+      "value": "south pole"
     }
   }
 }

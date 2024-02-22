@@ -1,5 +1,5 @@
 param storageAccountName string
-param location string = 'South Pole'
+param location string
 param sku string = 'Standard_LRS'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
