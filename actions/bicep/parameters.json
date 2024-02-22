@@ -5,9 +5,6 @@
     "storageAccountName": {
       "value": "mystorage15041995"
     },
-    "resourceGroupName": {
-      "value": "demo-rg"
-    },
     "location": {
       "value": "west Europe"
     },

@@ -6,7 +6,7 @@ name: build storage account bicep
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ delete_all_bicep_resource ]
+    branches: [ deploy_multiple_bicep_resource_delete_one_specific_resource ]
   pull_request:
     branches: [ none ]
 
@@ -15,8 +15,8 @@ on:
 
 
 env:
-  AZURE_RESOURCEGROUP_NAME: resourceGroupName=$(jq -r '.parameters.resourceGroupName.value' parameters.json)
-  ENVIRONMENT_LOCATION: location=$(jq -r '.parameters.location.value' parameters.json)
+  AZURE_RESOURCEGROUP_NAME: demo-rg
+  ENVIRONMENT_LOCATION: EastUS
 
 jobs:
  # This workflow contains a single job called "build"
@@ -38,7 +38,7 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az deployment group create --what-if --resource-group $resourceGroupName --template-file './storage.bicep' --parameters @parameters.json
+          az deployment group create --what-if --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
 
   dev_deployment:
     name: dev deployment 
@@ -60,15 +60,15 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az deployment group create --resource-group $resourceGroupName --template-file './storage.bicep' --parameters @parameters.json
-
+          az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+          sleep 60
   delete_storage:
     name: delete storage account 
     runs-on: ubuntu-latest
     needs: [dev_deployment]
     environment: delete
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it.
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: Login to Azure
@@ -79,31 +79,19 @@ jobs:
       - name: 'delete a storage account'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          storageAccountName=$(jq -r '.parameters.storageAccountName.value' parameters.json)
-          resourceGroupName=$(jq -r '.parameters.resourceGroupName.value' parameters.json)
-          appServicePlanName=$(jq -r '.parameters.appServicePlanName.value' parameters.json)
-          webAppName=$(jq -r '.parameters.webAppName.value' parameters.json)
-          mapfile -t resourceGroups < <(az group list --query "[].name" --output tsv)
-      
-          for rg in "${resourceGroups[@]}"; do
-              echo "Resource Group: $rg"
+
+          storageAccountName=$(jq -r '.parameters.storageAccountName.value' ./parameters.json)
+          appServicePlanName=$(jq -r '.parameters.appServicePlanName.value' ./parameters.json)
+          webAppName=$(jq -r '.parameters.webAppName.value' ./parameters.json)
           
-              mapfile -t storageAccounts < <(az storage account list --resource-group "$rg" --query "[].name" --output tsv)
+          # Delete the Web App
+          az webapp delete --name $webAppName --resource-group YourResourceGroup
           
-              for sa in "${storageAccounts[@]}"; do
-                                   
-                  echo "  Storage Account Found: $sa, Storage Account To be deleted: $storageAccountName"
-                  if [[ "$sa" == $storageAccountName ]]; then
-                      echo "  Storage Account to delete found: $storageAccountName"
-                      az storage account delete --name $storageAccountName --resource-group "$rg" --yes
-                  else
-                      echo "  Storage Account to delete not found in $rg"
-                  fi
+          # Delete the App Service Plan
+          az appservice plan delete --name $appServicePlanName --resource-group YourResourceGroup
           
-                  # Add your logic to delete storage accounts here
-                  # az storage account delete --name "$sa" --resource-group "$rg" --yes
-              done
-          done
-          az appservice plan delete --name $appServicePlanName --resource-group $resourceGroupName --yes
-          az webapp delete --name $webAppName --resource-group $resourceGroupName --yes
+          # Optionally, delete the Storage Account
+          az storage account delete --name $storageAccountName --resource-group YourResourceGroup
+        
+          
           
