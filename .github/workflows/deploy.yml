@@ -23,11 +23,19 @@ jobs:
     - name: Post-deployment check
       run: |
 
+        # Fetch the provisioningState without specifying the storage account name
         az storage account show --query "provisioningState" --output tsv
-        if [ "$(az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv)" = "Succeeded" ]; then
+        
+        # Now, let's use a specific storage account name in the command
+        account_name="storageaccount15041995"
+        provisioning_state=$(az storage account show --name $account_name --query "provisioningState" --output tsv)
+        
+        # Check the provisioningState and take action accordingly
+        if [ "$provisioning_state" = "Succeeded" ]; then
           echo "Deployment succeeded"
         else
           echo "Deployment failed"
           exit 1
         fi
+#
 
