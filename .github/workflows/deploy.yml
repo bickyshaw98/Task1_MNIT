@@ -16,10 +16,10 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
 
-#    - name: Deploy Bicep file
-#      working-directory: '${{github.workspace}}/actions/bicep'
-#      run: |
-#        az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+    - name: Deploy Bicep file
+      working-directory: '${{github.workspace}}/actions/bicep'
+      run: |
+        az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
     - name: Post-deployment check
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
