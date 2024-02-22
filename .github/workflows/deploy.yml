@@ -23,9 +23,7 @@ jobs:
     - name: Post-deployment check
       run: |
 
-        echo "Printing storage account name: $STORAGE_ACCOUNT_NAME"
-        az storage account show --name storageaccount15041995 
-#        --query "provisioningState" --output tsv
+        az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv
 #        if [ "$(az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv)" = "Succeeded" ]; then
 #          echo "Deployment succeeded"
 #        else
