@@ -1,5 +1,5 @@
 param storageAccountName string
-param location string = 'East US'
+param location string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   name: storageAccountName
@@ -18,5 +18,6 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
     azPowerShellVersion: '3.0'
     scriptContent: 'Write-Error "Intentional error during deployment"'
     timeout: 'PT10M'
+    retentionInterval: 'P1D' // Add a retentionInterval property
   }
 }
