@@ -24,6 +24,7 @@ jobs:
       run: |
 
         # Fetch the provisioningState without specifying the storage account name
+        az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv
         provisioning_state=$(az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv)
 
         # Check the provisioningState and take action accordingly
