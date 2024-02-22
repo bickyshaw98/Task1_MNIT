@@ -78,7 +78,10 @@ jobs:
       - name: 'delete a storage account'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-
+          webAppName=$(jq -r '.parameters.webAppName.value' ./parameters.json)
+          appServicePlanName=$(jq -r '.parameters.storageAccountName.value' ./parameters.json)
+          storageAccountName=$(jq -r '.parameters.storageAccountName.value' ./parameters.json)
+          
           # Get the IDs of the resources
           storageAccountId=$(az storage account show --name $storageAccountName --resource-group demo-rg --query "id" --output tsv)
           appServicePlanId=$(az appservice plan show --name $appServicePlanName --resource-group demo-rg --query "id" --output tsv)
