@@ -22,10 +22,10 @@ jobs:
         az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
     - name: Post-deployment check
       run: |
-
-        # Fetch the provisioningState without specifying the storage account name
-        az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv
-        provisioning_state=$(az storage account show --name storageaccount15041995 --query "provisioningState" --output tsv)
+        # Read the storage account name from the parameters file
+        account_name=$(jq -r '.parameters.storageAccountName.value' parameters.json)
+        az storage account show --name $account_name --query "provisioningState" --output tsv
+        provisioning_state=$(az storage account show --name $account_name --query "provisioningState" --output tsv)
 
         # Check the provisioningState and take action accordingly
         if [ "$provisioning_state" = "Succeeded" ]; then
