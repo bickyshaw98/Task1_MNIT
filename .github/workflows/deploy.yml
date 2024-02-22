@@ -78,19 +78,19 @@ jobs:
       - name: 'delete a storage account'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          # Parse parameters.json to get resource names
-          storageAccountName=$(jq -r '.parameters.storageAccountName.value' ./parameters.json)
-          appServicePlanName=$(jq -r '.parameters.appServicePlanName.value' ./parameters.json)
-          webAppName=$(jq -r '.parameters.webAppName.value' ./parameters.json)
-            
-          # Delete Web App
-          az webapp delete --name $webAppName --resource-group demo-rg --yes --no-wait
-  
-          # Delete App Service Plan
-          az appservice plan delete --name $appServicePlanName --resource-group demo-rg --yes --no-wait
-  
-          # Delete Storage Account
-          az storage account delete --name $storageAccountName --resource-group demo-rg --yes --no-wait
-            
-            
-          
+         # Parse parameters.json to get resource names
+         storageAccountName=$(jq -r '.parameters.storageAccountName.value' ./parameters.json)
+         appServicePlanName=$(jq -r '.parameters.appServicePlanName.value' ./parameters.json)
+         webAppName=$(jq -r '.parameters.webAppName.value' ./parameters.json)
+         resourceGroupName='demo-rg' # Replace with your actual resource group name
+         
+         # Delete Web App using resource ID
+         webAppId=$(az webapp show --name $webAppName --resource-group $resourceGroupName --query "id" --output tsv)
+         az resource delete --ids $webAppId --yes --no-wait
+         
+         # Delete App Service Plan
+         az appservice plan delete --name $appServicePlanName --resource-group $resourceGroupName --yes --no-wait
+         
+         # Delete Storage Account
+         az storage account delete --name $storageAccountName --resource-group $resourceGroupName --yes --no-wait
+         
