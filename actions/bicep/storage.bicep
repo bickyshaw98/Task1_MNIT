@@ -1,6 +1,6 @@
 param storageAccountName string
-param location string = resourceGroup().location
-param sku string = 'Invalid_Sku_Value'
+param location string = 'South Pole'
+param sku string = 'Standard_LRS'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   name: storageAccountName
@@ -8,7 +8,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   sku: {
     name: sku
   }
-  kind: 'Invalid_Kind_Value'
+  kind: 'StorageV2'
   properties: {
     supportsHttpsTrafficOnly: true
   }
