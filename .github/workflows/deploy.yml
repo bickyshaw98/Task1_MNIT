@@ -88,7 +88,7 @@ jobs:
          webAppId=$(az webapp show --name $webAppName --resource-group $resourceGroupName --query "id" --output tsv)
          
          # Perform 'what-if' before deleting Web App
-         az deployment group what-if --resource-group $resourceGroupName --template-type "Resource" --template-uri $webAppId --output table
+         az deployment group what-if --resource-group $resourceGroupName --name "WhatIfDeployment" --output table
          
          # Delete Web App
          az resource delete --ids $webAppId --yes --no-wait
