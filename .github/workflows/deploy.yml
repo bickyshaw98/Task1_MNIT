@@ -1,4 +1,3 @@
-#
 name: Deploy Azure Storage Account
 
 on:
@@ -26,9 +25,13 @@ jobs:
       run: |
         # Read the storage account name from the parameters file
         account_name=$(jq -r '.parameters.storageAccountName.value' './parameters.json')
-        az storage account show --name $account_name --query "provisioningState" --output tsv
+        
+        # Wait for a certain period to allow resource provisioning to complete
+        sleep 30
+        
+        # Query the provisioning state
         provisioning_state=$(az storage account show --name $account_name --query "provisioningState" --output tsv)
-
+        
         # Check the provisioningState and take action accordingly
         if [ "$provisioning_state" = "Succeeded" ]; then
           echo "Deployment succeeded"
@@ -36,6 +39,7 @@ jobs:
           echo "Deployment failed"
           exit 1
         fi
-#
+       
+
 
 
