@@ -25,7 +25,7 @@ jobs:
       run: |
         # Read the storage account name from the parameters file
         account_name=$(jq -r '.parameters.storageAccountName.value' './parameters.json')
-        
+        echo "$account_name"
         # Wait for a certain period to allow resource provisioning to complete
         sleep 30
         
