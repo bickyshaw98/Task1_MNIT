@@ -10,14 +10,15 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   kind: 'StorageV2'
 }
 
+
 resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
   name: 'scriptDeployment'
   location: 'East US'
   kind: 'AzurePowerShell'
   properties: {
     azPowerShellVersion: '3.0'
-    scriptContent: 'Write-Error "Intentional error during deployment"'
+    scriptContent: 'Write-Error "Intentional error during deployment"; exit 1'
     timeout: 'PT10M'
-    retentionInterval: 'P1D' // Add a retentionInterval property
+    retentionInterval: 'P1D'
   }
 }
