@@ -1,9 +1,14 @@
+// storage-appservice-network.bicep
 
 param rgName string
-param location string = 'East US'
+param location string
+param storageAccountName string
+param appServiceName string
+param vnetName string
+param subnetName string
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
-  name: 'mystorageaccount15041995'
+  name: storageAccountName
   location: location
   sku: {
     name: 'Standard_LRS'
@@ -12,7 +17,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
 }
 
 resource appService 'Microsoft.Web/sites@2021-02-01' = {
-  name: 'myappservice15041995'
+  name: appServiceName
   location: location
   properties: {
     serverFarmId: appServicePlan.id
@@ -20,37 +25,29 @@ resource appService 'Microsoft.Web/sites@2021-02-01' = {
 }
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
-  name: 'myserviceplan'
+  name: '${appServiceName}-plan'
   location: location
   sku: {
-    name: 'B1'
-    tier: 'Basic'
+    name: 'Y1'
+    tier: 'Dynamic'
   }
 }
 
-resource vm 'Microsoft.Compute/virtualMachines@2021-07-01' = {
-  name: 'myvirtualmachine'
+resource virtualNetwork 'Microsoft.Network/virtualNetworks@2021-05-01' = {
+  name: vnetName
   location: location
   properties: {
-    hardwareProfile: {
-      vmSize: 'Standard_DS1_v2'
+    addressSpace: {
+      addressPrefixes: ['10.0.0.0/16']
     }
-    storageProfile: {
-      imageReference: {
-        publisher: 'MicrosoftWindowsServer'
-        offer: 'WindowsServer'
-        sku: '2019-Datacenter'
-        version: 'latest'
-      }
-      osDisk: {
-        createOption: 'FromImage'
-      }
-    }
-    osProfile: {
-      computerName: 'myvm'
-      adminUsername: 'BickyShaw'
-      adminPassword: 'your-password'
-    }
+  }
+}
+
+resource subnet 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
+  name: subnetName
+  parent: virtualNetwork
+  properties: {
+    addressPrefix: '10.0.0.0/24'
   }
 }
 
