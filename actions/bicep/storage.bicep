@@ -27,3 +27,5 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2022-05-01' = {
     arguments: '-storageAccountName', storageAccount.name
   }
 }
+
+output deploymentScriptOutput string = deploymentScript.properties.outputs['outputVariableName']
