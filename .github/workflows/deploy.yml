@@ -23,19 +23,17 @@ jobs:
     - name: Post-deployment check
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
-        # Read the storage account name from the parameters file
-        account_name=$(jq -r '.parameters.storageAccountName.value' './parameters.json')
-        echo "$account_name"
-        
         # Wait for a certain period to allow resource provisioning to complete
+        sleep 60
         
-        # Query the storage account using --ids to check existence
-        az storage account show --ids "/subscriptions/112b128e-2295-43f5-aebe-b882b8d039d3/resourceGroups/demo-rg/providers/Microsoft.Storage/storageAccounts/$account_name" > /dev/null 2>&1
-        
-        # Check the exit code and take action accordingly
-        if [ $? -eq 0 ]; then
-          echo "Deployment succeeded"
-        else
-          echo "Deployment failed"
-          exit 1
-        fi
+        # Check the post-deployment status of Storage Account
+        az storage account show --name mystorageaccount15041995 --resource-group demo-rg --output table
+  
+        # Check the post-deployment status of App Service
+        az webapp show --name myappservice --resource-group demo-rg --output table
+  
+        # Check the post-deployment status of App Service Plan
+        az appservice plan show --name myserviceplan --resource-group demo-rg --output table
+  
+        # Check the post-deployment status of Virtual Machine
+        az vm show --name myvirtualmachine --resource-group demo-rg --output table
