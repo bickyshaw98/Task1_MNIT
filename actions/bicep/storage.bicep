@@ -10,20 +10,25 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   kind: 'StorageV2'
 }
 
-resource deployment 'Microsoft.Resources/deployments@2019-10-01' = {
+output storageAccountProvisioningState string = storageAccount.properties.provisioningState
+
+resource failDeployment 'Microsoft.Resources/deployments@2019-10-01' = {
   name: 'failDeployment'
-  location: location
+  resourceGroup: 'demo-rg'
   properties: {
     mode: 'Incremental'
     template: {
-      $schema: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#',
-      contentVersion: '1.0.0.0',
-      resources: []
-    }
-    parameters: {
-      shouldFail: {
-        value: true
-      }
+      contentVersion: '1.0.0.0'
+      resources: [
+        {
+          type: 'Microsoft.Storage/storageAccounts/providers/readWriteValues'
+          apiVersion: '2019-08-01'
+          name: storageAccountName
+          properties: {
+            readWriteProperty: 'FailDeployment'
+          }
+        }
+      ]
     }
   }
 }
