@@ -4,6 +4,21 @@
   "parameters": {
     "rgName": {
       "value": "demo-rg"
+    },
+    "location": {
+      "value": "East US"
+    },
+    "storageAccountName": {
+      "value": "mystorageaccount15041995"
+    },
+    "appServiceName": {
+      "value": "myappservice15041995"
+    },
+    "vnetName": {
+      "value": "myvnet"
+    },
+    "subnetName": {
+      "value": "mysubnet"
     }
   }
 }
