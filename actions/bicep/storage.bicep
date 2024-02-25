@@ -28,8 +28,8 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
   name: '${appServiceName}-plan'
   location: location
   sku: {
-    name: 'Y1'
-    tier: 'Dynamic'
+    name: 'P1v2'
+    tier: 'Premium'
   }
 }
 
