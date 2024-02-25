@@ -12,7 +12,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
 }
 
 resource appService 'Microsoft.Web/sites@2021-02-01' = {
-  name: 'myappservice'
+  name: 'myappservice15041995'
   location: location
   properties: {
     serverFarmId: appServicePlan.id
