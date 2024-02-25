@@ -18,22 +18,18 @@ jobs:
     - name: Deploy Bicep file
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
-        az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+        az deployment group create --name MyDeploymentName --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
         sleep 30  
     - name: Post-deployment check
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
-        # Wait for a certain period to allow resource provisioning to complete
-        sleep 60
-        
-        # Check the post-deployment status of Storage Account
-        az storage account show --name mystorageaccount15041995 --resource-group demo-rg --output table
+        # Check the exit status of the Azure CLI commands
+        az deployment group show --name MyDeploymentName --resource-group demo-rg --query "properties.provisioningState" --output tsv
   
-        # Check the post-deployment status of App Service
-        az webapp show --name myappservice --resource-group demo-rg --output table
-  
-        # Check the post-deployment status of App Service Plan
-        az appservice plan show --name myserviceplan --resource-group demo-rg --output table
-  
-        # Check the post-deployment status of Virtual Machine
-        az vm show --name myvirtualmachine --resource-group demo-rg --output table
+        # Combine the exit status using '&&' (logical AND)
+        if [ $? -eq 0 ]; then
+          echo "Deployment succeeded for all resources."
+        else
+          echo "Deployment failed for one or more resources."
+          exit 1
+        fi
