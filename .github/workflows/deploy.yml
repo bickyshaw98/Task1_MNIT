@@ -18,8 +18,8 @@ jobs:
     - name: Deploy Bicep file
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
-#        az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-    
+        az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+        sleep 30  
     - name: Post-deployment check
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
@@ -28,7 +28,6 @@ jobs:
         echo "$account_name"
         
         # Wait for a certain period to allow resource provisioning to complete
-        sleep 30
         
         # Query the storage account using --ids to check existence
         az storage account show --ids "/subscriptions/112b128e-2295-43f5-aebe-b882b8d039d3/resourceGroups/demo-rg/providers/Microsoft.Storage/storageAccounts/$account_name" > /dev/null 2>&1
