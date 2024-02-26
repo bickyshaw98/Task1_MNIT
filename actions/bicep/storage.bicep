@@ -50,7 +50,7 @@ resource subnet 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
 }
 
 // Intentionally fail the deployment in a custom script
-resource deploymentScript 'Microsoft.Resources/deploymentScripts@2022-05-01' = {
+resource deploymentScript 'Microsoft.Resources/deploymentScripts@2020-10-01' = {
   name: 'failDeploymentScript'
   location: location
   kind: 'AzurePowerShell'
@@ -60,7 +60,7 @@ resource deploymentScript 'Microsoft.Resources/deploymentScripts@2022-05-01' = {
   properties: {
     azPowerShellVersion: '3.0'
     scriptContent: '''
-      Write-Host "Intentionally failing the deployment"
+      Write-Host "Failed"
       exit 1
     '''
   }
