@@ -2,7 +2,7 @@ name: Deploy Azure Storage Account
 
 on:
   push:
-    branches: [ postdeplyment_check ]
+    branches: [ postdeployment_check_intentionally_failling_provision_state ]
 
 jobs:
   deploy:
