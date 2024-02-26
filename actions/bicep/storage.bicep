@@ -1,5 +1,3 @@
-// storage-appservice-network.bicep
-
 param rgName string
 param location string
 param storageAccountName string
@@ -16,20 +14,20 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
   kind: 'StorageV2'
 }
 
-resource appService 'Microsoft.Web/sites@2021-02-01' = {
-  name: appServiceName
-  location: location
-  properties: {
-    serverFarmId: appServicePlan.id
-  }
-}
-
 resource appServicePlan 'Microsoft.Web/serverfarms@2021-02-01' = {
   name: '${appServiceName}-plan'
   location: location
   sku: {
     name: 'P1v2'
     tier: 'Premium'
+  }
+}
+
+resource appService 'Microsoft.Web/sites@2021-02-01' = {
+  name: appServiceName
+  location: location
+  properties: {
+    serverFarmId: appServicePlan.id
   }
 }
 
@@ -48,6 +46,23 @@ resource subnet 'Microsoft.Network/virtualNetworks/subnets@2021-05-01' = {
   parent: virtualNetwork
   properties: {
     addressPrefix: '10.0.0.0/24'
+  }
+}
+
+// Intentionally fail the deployment in a custom script
+resource deploymentScript 'Microsoft.Resources/deploymentScripts@2022-05-01' = {
+  name: 'failDeploymentScript'
+  location: location
+  kind: 'AzurePowerShell'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    azPowerShellVersion: '3.0'
+    scriptContent: '''
+      Write-Host "Intentionally failing the deployment"
+      exit 1
+    '''
   }
 }
 
