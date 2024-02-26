@@ -18,13 +18,13 @@ jobs:
     - name: Deploy Bicep file
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
-        az deployment group create --name MyDeploymentName --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+        az deployment group create --name MyDeploymentName --resource-group dev-demo-rg --template-file './storage.bicep' --parameters @parameters.json
         sleep 30  
     - name: Post-deployment check
       working-directory: '${{github.workspace}}/actions/bicep'
       run: |
         # Check the exit status of the Azure CLI commands
-        az deployment group show --name MyDeploymentName --resource-group demo-rg --query "properties.provisioningState" --output tsv
+        az deployment group show --name MyDeploymentName --resource-group dev-demo-rg --query "properties.provisioningState" --output tsv
   
         # Combine the exit status using '&&' (logical AND)
         if [ $? -eq 0 ]; then
