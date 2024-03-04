@@ -2,7 +2,7 @@ name: Analyze templates
 on:
   push:
     branches:
-      - main
+      - psrule_implementation
   pull_request:
     branches:
       - main
