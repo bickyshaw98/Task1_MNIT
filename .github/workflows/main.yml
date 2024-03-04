@@ -1,15 +1,11 @@
-#https://github.com/microsoft/PSRule/blob/main/docs/concepts/PSRule/en-US/about_PSRule_Options.md#loggingrulefail
-#https://github.com/Azure/PSRule.Rules.Azure/discussions/854
-
-
 name: Analyze templates
 on:
   push:
     branches:
-    - psrule_implementation
+      - main
   pull_request:
     branches:
-    - psrule_implementation
+      - main
 env:
   PSRULE_AZURE_BICEP_PATH: '/usr/local/bin/bicep'
   PSRULE_OUTPUT_JOBSUMMARYPATH: reports/summary.md
@@ -24,6 +20,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
+    # Build Bicep file
+    - name: Build Bicep file
+      run: ./storage.test.bicep
+
     # Analyze Azure resources using PSRule for Azure
     - name: Analyze Azure template files
       uses: microsoft/ps-rule@v2.9.0
@@ -33,4 +33,4 @@ jobs:
         outputPath: reports/ps-rule-results.sarif
         inputType: 'repository'
         source: '.ps-rule/'
-        Baseline: 'Azure.GA_2023_12'          
+        Baseline: 'Azure.GA_2023_12'
