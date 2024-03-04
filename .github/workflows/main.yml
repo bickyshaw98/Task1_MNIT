@@ -19,10 +19,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-
+    
+    
     # Build Bicep file
     - name: Build Bicep file
-      run: bicep build $PSRULE_AZURE_BICEP_PATH
+      run: 
+        chmod + $PSRULE_AZURE_BICEP_PATH
+        bicep build $PSRULE_AZURE_BICEP_PATH
 
     # Analyze Azure resources using PSRule for Azure
     - name: Analyze Azure template files
