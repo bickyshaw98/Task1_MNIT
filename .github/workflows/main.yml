@@ -29,25 +29,24 @@ jobs:
           curl -Lo /usr/local/bin/bicep-linter https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
           chmod +x /usr/local/bin/bicep-linter
 
-      # Analyze Bicep files using the Bicep linter
-      - name: Analyze Bicep files
+      # Convert Bicep files to ARM templates
+      - name: Convert Bicep to ARM
         run: |
           bicep_files=$(find . -type f -name "*.bicep")
           for file in $bicep_files; do
-            bicep-linter lint $file
-            echo $file
+            arm_file="${file%.bicep}.json"
+            bicep build -o $arm_file $file
+            echo $arm_file
           done
         shell: bash
 
-
-
-      # Analyze Azure resources using PSRule for Azure
-      - name: Analyze Azure template files
+      # Analyze ARM templates using PSRule for Azure
+      - name: Analyze ARM template files
         uses: microsoft/ps-rule@v2.9.0
         with:
           modules: 'PSRule.Rules.Azure'
           outputFormat: Sarif
           outputPath: reports/ps-rule-results.sarif
           inputType: 'repository'
-          source: '.ps-rule/'
+          source: '.'
           Baseline: 'Azure.GA_2023_12'
