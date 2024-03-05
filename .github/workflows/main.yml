@@ -29,6 +29,16 @@ jobs:
           curl -Lo /usr/local/bin/bicep-linter https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
           chmod +x /usr/local/bin/bicep-linter
 
+      # Analyze Bicep files using the Bicep linter
+      - name: Analyze Bicep files
+        run: |
+          bicep_files=$(find . -type f -name "*.bicep")
+          for file in $bicep_files; do
+            bicep-linter lint $file
+            echo $file
+          done
+        shell: bash
+
       # Convert Bicep files to ARM templates
       - name: Convert Bicep to ARM
         run: |
