@@ -26,8 +26,10 @@ jobs:
       # Install Bicep compiler
       - name: Install Bicep compiler
         run: |
-          curl -Lo /usr/local/bin/bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
-          chmod +x /usr/local/bin/bicep
+          mkdir -p $HOME/bin
+          curl -Lo $HOME/bin/bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x $HOME/bin/bicep
+          export PATH=$HOME/bin:$PATH
         shell: bash
 
       # Compile Bicep files to ARM templates
