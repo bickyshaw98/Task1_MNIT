@@ -6,7 +6,7 @@ name: Analyze templates
 on:
   push:
     branches:
-    - psrule_implementation
+    - psrule_implementation_2
   pull_request:
     branches:
     - psrule_implementation
