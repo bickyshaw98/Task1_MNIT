@@ -34,9 +34,10 @@ jobs:
         run: |
           bicep_files=$(find . -type f -name "*.bicep")
           for file in $bicep_files; do
-            bicep-linter lint -f $file
+            bicep-linter lint $file
           done
         shell: bash
+
 
 
       # Analyze Azure resources using PSRule for Azure
