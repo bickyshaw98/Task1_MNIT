@@ -35,6 +35,7 @@ jobs:
           bicep_files=$(find . -type f -name "*.bicep")
           for file in $bicep_files; do
             bicep-linter lint $file
+            echo $file
           done
         shell: bash
 
