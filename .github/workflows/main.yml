@@ -35,9 +35,8 @@ jobs:
       # Compile Bicep files to ARM templates
       - name: Compile Bicep files to ARM templates
         run: |
-          bicep_files=$(find . -type f -name "*.bicep")
-          for file in $bicep_files; do
-            bicep build $file -o $(dirname $file)/$(basename $file .bicep).json
+          find . -type f -name "*.bicep" -print0 | while IFS= read -r -d $'\0' file; do
+            bicep build "$file" -o "$(dirname "$file")/$(basename "$file" .bicep).json"
           done
         shell: bash
 
