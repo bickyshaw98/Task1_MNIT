@@ -35,10 +35,17 @@ jobs:
           bicep_files=$(find . -type f -name "*.bicep")
           for file in $bicep_files; do
             arm_file="${file%.bicep}.json"
-            bicep build -o $arm_file $file
+            bicep build --outfile $arm_file $file
             echo $arm_file
           done
         shell: bash
+  env:
+    PSRULE_AZURE_BICEP_PATH: /usr/local/bin/bicep
+    PSRULE_OUTPUT_JOBSUMMARYPATH: reports/summary.md
+    PSRULE_EXECUTION_INVARIANTCULTURE: Warn
+    PSRULE_OUTPUT_AS: Summary
+    PSRULE_OUTPUT_FORMAT: Csv
+
 
       # Analyze ARM templates using PSRule for Azure
       - name: Analyze ARM template files
