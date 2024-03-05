@@ -40,6 +40,7 @@ jobs:
           done
         shell: bash
 
+
       # Analyze ARM template files using PSRule
       - name: Analyze ARM template files
         uses: microsoft/ps-rule@v2.9.0
