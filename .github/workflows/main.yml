@@ -23,26 +23,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Install Bicep linter
-      - name: Install Bicep linter
+      # Install Bicep compiler
+      - name: Install Bicep compiler
         run: |
-          curl -Lo /usr/local/bin/bicep-linter https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
-          chmod +x /usr/local/bin/bicep-linter
+          curl -Lo /usr/local/bin/bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64
+          chmod +x /usr/local/bin/bicep
+        shell: bash
 
-      # Analyze Bicep files using the Bicep linter
-      - name: Analyze Bicep files
+      # Compile Bicep files to ARM templates
+      - name: Compile Bicep files to ARM templates
         run: |
           bicep_files=$(find . -type f -name "*.bicep")
           for file in $bicep_files; do
-            bicep-linter lint $file
-            echo $file
+            bicep build $file -o $(dirname $file)/$(basename $file .bicep).json
           done
         shell: bash
 
-
-
-      # Analyze Azure resources using PSRule for Azure
-      - name: Analyze Azure template files
+      # Analyze ARM template files using PSRule
+      - name: Analyze ARM template files
         uses: microsoft/ps-rule@v2.9.0
         with:
           modules: 'PSRule.Rules.Azure'
