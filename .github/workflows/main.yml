@@ -50,7 +50,6 @@ jobs:
           done
         shell: bash
 
-
       # Analyze ARM templates using PSRule for Azure
       - name: Analyze ARM template files
         uses: microsoft/ps-rule@v2.9.0
