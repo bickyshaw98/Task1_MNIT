@@ -6,7 +6,7 @@ name: build storage account bicep
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ deploy_one_bicep_resource ]
+    branches: [ artifact_implementation ]
   pull_request:
     branches: [ none ]
 
@@ -39,29 +39,13 @@ jobs:
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
           az deployment group create --what-if --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-  analyze_arm:
-    name: Analyze templates
-    runs-on: ubuntu-latest
-    needs: [bicep_build]
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    # Analyze Azure resources using PSRule for Azure
-    - name: Analyze Azure template files
-      uses: microsoft/ps-rule@v2.9.0
-      with:
-        modules: 'PSRule.Rules.Azure'
-        outputFormat: Sarif
-        outputPath: reports/ps-rule-results.sarif
-        inputType: 'repository'
-        source: '.ps-rule/'
-        Baseline: 'Azure.GA_2023_12'
+      
+  
   dev_deployment:
     name: dev deployment 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    needs: [analyze_arm]
+    needs: [bicep_build]
     environment: dev
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -78,5 +62,9 @@ jobs:
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
           az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-
+      - name: Upload result
+        uses: actions/upload-artifact@v3
+        with:
+          name: bicepOutPut
+          path: bicepOutPut.json
   
