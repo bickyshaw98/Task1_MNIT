@@ -62,9 +62,10 @@ jobs:
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
           az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-      - name: Upload result
+      - name: Run actions/upload-artifact@v3
         uses: actions/upload-artifact@v3
         with:
           name: bicepOutPut
-          path: bicepOutPut.json
+          path: ./bicepOutPut.json  # Update the path based on your file location
+          if-no-files-found: warn
   
