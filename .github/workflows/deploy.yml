@@ -68,6 +68,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: bicepOutPut
-          path: ./bicepOutPut.json  # Update the path based on your file location
+          path: /home/runner/work/Task1_MNIT/Task1_MNIT/actions/bicep/bicepOutPut.json
           if-no-files-found: warn
   
