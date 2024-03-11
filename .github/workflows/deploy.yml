@@ -61,6 +61,8 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
+          pwd
+          ls -R
           az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
       - name: Run actions/upload-artifact@v3
         uses: actions/upload-artifact@v3
