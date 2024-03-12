@@ -73,7 +73,7 @@ jobs:
   
   post_deployment:
     # The type of runner that the job will run on
-    name: Attach ASG to NIC cards
+    name: Postdeployment
     needs: [dev_deployment]
     runs-on: ubuntu-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -98,5 +98,7 @@ jobs:
       - name: Extract outputs from deployment json
         shell: bash
         run: |
+          pwd
+          cat bicepOutPut.json
           storageAccountName=$(jq -r '.properties.outputs.storageAccountName.value' bicepOutPut.json)
           echo "storageAccountName=$storageAccountName"

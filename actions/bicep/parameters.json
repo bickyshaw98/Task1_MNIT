@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "storage_account_name": {
-        "value": "mystorage1504199507"
+        "value": "mystorage150419950715"
       },
       "location": {
         "value": "west europe"
