@@ -69,4 +69,34 @@ jobs:
           name: bicepOutPut
           path: /home/runner/work/Task1_MNIT/Task1_MNIT/actions/bicep/bicepOutPut.json
           if-no-files-found: warn
-      
+  
+  
+  post_deployment:
+    # The type of runner that the job will run on
+    name: Attach ASG to NIC cards
+    needs: [dev_deployment]
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
+      #Checkout the repo
+      - name: Checkout
+        uses: actions/checkout@v3
+      #Download the Json file artificat created in privious job
+      - name: Download deployment result for job 2
+        uses: actions/download-artifact@v3
+        with:
+          name: bicepOutPut          
+      #read the json artifiact from prior job
+
+      - name: Extract outputs from deployment json
+        shell: bash
+        run: |
+          storageAccountName = `jq .properties.outputs.storageAccountName.value`
+          echo "storageAccountName=$storageAccountName"
