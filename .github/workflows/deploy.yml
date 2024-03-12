@@ -60,7 +60,7 @@ jobs:
         run: |
           az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json --name artifact_implementation
           sleep 30
-          az deployment group show --resource-group demo-rg --name artifact_implementation --query properties.outputs 
+          az deployment group show --resource-group demo-rg --name artifact_implementation --query properties.outputs > bicepOutPut.json
 
       
       - name: Run actions/upload-artifact@v3
