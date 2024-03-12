@@ -98,5 +98,5 @@ jobs:
       - name: Extract outputs from deployment json
         shell: bash
         run: |
-          storageAccountName = `jq .properties.outputs.storageAccountName.value`
+          storageAccountName=$(jq -r '.properties.outputs.storageAccountName.value' bicepOutPut.json)
           echo "storageAccountName=$storageAccountName"
