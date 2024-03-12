@@ -100,5 +100,6 @@ jobs:
         run: |
           pwd
           cat bicepOutPut.json
-          storageAccountName=$(jq -r '.properties.outputs.storageAccountName.value' bicepOutPut.json)
+          storageAccountName=$(jq -r '.parameters.storageAccountName.value' bicepOutPut.json)
           echo "storageAccountName=$storageAccountName"
+
