@@ -44,7 +44,6 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     needs: [bicep_build]
-    environment: dev
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -59,8 +58,9 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
+          az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json --name artifact_implementation
+          sleep 30
           az deployment group show --resource-group demo-rg --name artifact_implementation --query properties.outputs 
-#         az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json --name artifact_implementation
 
       
       - name: Run actions/upload-artifact@v3
