@@ -34,5 +34,5 @@ jobs:
           
       - name: Run Checkov
         working-directory: '${{github.workspace}}/actions/bicep'
-        run: checkov --directory . --framework azure --external-checks-dir ../custom-checks/custom_checks.py
+        run: checkov --directory . --framework bicep --external-checks-dir ../custom-checks/custom_checks.py
 
