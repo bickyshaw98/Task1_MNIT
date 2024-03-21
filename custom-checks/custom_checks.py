@@ -8,7 +8,7 @@ class StorageAccountRule(BaseResourceCheck):
     def __init__(self):
         name = "Ensure storage account has encryption enabled"
         id = "CUSTOM_AZURE_STORAGE_ACCOUNT_ENCRYPTION_ENABLED"
-        supported_resources = ["azurerm_storage_account"]
+        supported_resources = ["azurerm_virtual_machine"]
         categories = [CheckCategories.SECURITY]
 
         super().__init__(name=name, id=id, categories=categories, supported_resources=supported_resources)
