@@ -18,11 +18,11 @@ resource webApp 'Microsoft.Web/sites@2020-12-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     siteConfig: {
-      httpsOnly: true // Ensure HTTPS-only traffic
-      minTlsVersion: '1.2' // Ensure TLS 1.2 or higher
-      clientCertEnabled: true // Enable client certificates
-      azureADAuthEnabled: true // Enable Azure AD authentication
-      http20Enabled: true // Enable HTTP/2
+      httpsOnly: true
+      minTlsVersion: '1.2'
+      clientCertEnabled: true
+      azureADAuthEnabled: true
+      http20Enabled: true
     }
   }
 }
