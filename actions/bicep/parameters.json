@@ -7,12 +7,6 @@
     },
     "location": {
       "value": "west Europe"
-    },
-    "appServicePlanName": {
-      "value": "myappserviceplan"
-    },
-    "webAppName": {
-      "value": "mywebappname15041995"
     }
   }
 }
