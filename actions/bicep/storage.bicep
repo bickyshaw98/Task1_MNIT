@@ -17,11 +17,11 @@ resource webApp 'Microsoft.Web/sites@2020-12-01' = {
   location: location
   properties: {
     serverFarmId: appServicePlan.id
+    httpsOnly: true
+    clientCertEnabled: true
+    azureADAuthEnabled: true
     siteConfig: {
-      httpsOnly: true
       minTlsVersion: '1.2'
-      clientCertEnabled: true
-      azureADAuthEnabled: true
       http20Enabled: true
     }
   }
