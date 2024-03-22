@@ -1,21 +1,23 @@
-@description('storage account name')
-param storage_account_name string
-
-@description('storage account location')
+param appName string
 param location string
+param skuName string = 'F1'
+param skuCapacity int = 1
 
-resource storageAccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
-  name: storage_account_name
+resource appServicePlan 'Microsoft.Web/serverfarms@2020-12-01' = {
+  name: '${appName}-asp'
   location: location
-  kind: 'StorageV2'
-  properties: {
-    minimumTlsVersion: 'TLS1_2'
-    networkAcls: {
-      bypass: 'AzureServices'
-      defaultAction: 'Deny'
-    }
-  }
   sku: {
-    name: 'Premium_LRS'
+    name: skuName
+    capacity: skuCapacity
   }
 }
+
+resource webApp 'Microsoft.Web/sites@2020-12-01' = {
+  name: appName
+  location: location
+  properties: {
+    serverFarmId: appServicePlan.id
+  }
+}
+
+output webAppUrl string = webApp.properties.defaultHostName
