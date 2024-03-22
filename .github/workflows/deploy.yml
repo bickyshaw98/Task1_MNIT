@@ -40,10 +40,11 @@ jobs:
         run: |
           az bicep build --file './storage.bicep'
 
-#      - name: 'deploy storage account bicep'
-#        working-directory: '${{github.workspace}}/actions/bicep'
-#        run: |
-#          az deployment group validate --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+      - name: 'deploy storage account bicep'
+        working-directory: '${{github.workspace}}/actions/bicep'
+        run: |
+          az deployment group validate --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+
 #          
 #
 #      - name: 'deploy storage account bicep'
