@@ -2,11 +2,18 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "storage_account_name": {
-        "value": "mystorage1504199507"
+      "appName": {
+        "value": "my-app-name"
       },
       "location": {
-        "value": "west europe"
+        "value": "East US"
+      },
+      "skuName": {
+        "value": "F1"
+      },
+      "skuCapacity": {
+        "value": 1
       }
     }
   }
+  
