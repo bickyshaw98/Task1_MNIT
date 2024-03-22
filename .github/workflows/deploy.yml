@@ -38,7 +38,7 @@ jobs:
       - name: 'deploy storage account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az build --template-file './storage.bicep'
+          build --template-file './storage.bicep'
 
 #      - name: 'deploy storage account bicep'
 #        working-directory: '${{github.workspace}}/actions/bicep'
