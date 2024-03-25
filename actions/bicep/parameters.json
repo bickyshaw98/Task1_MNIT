@@ -1,19 +1,12 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-      "appName": {
-        "value": "my-app-name-15041995"
-      },
-      "location": {
-        "value": "East US"
-      },
-      "skuName": {
-        "value": "F1"
-      },
-      "skuCapacity": {
-        "value": 1
-      }
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storage_account_name": {
+      "value": "st12mskuexszw4"
+    },
+    "location": {
+      "value": "west europe"
     }
   }
-  
+}

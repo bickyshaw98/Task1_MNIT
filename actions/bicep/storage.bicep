@@ -1,30 +1,17 @@
-param appName string
-param location string
-param skuName string = 'F1'
-param skuCapacity int = 1
+@description('storage account name')
+param storage_account_name string
 
-resource appServicePlan 'Microsoft.Web/serverfarms@2020-12-01' = {
-  name: '${appName}-asp'
+@description('storage account location')
+param location string 
+
+resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
+  name: storage_account_name
   location: location
+  kind: 'StorageV2'
+  properties:{
+    minimumTlsVersion: 'TLS1_2'
+  }
   sku: {
-    name: skuName
-    capacity: skuCapacity
+    name: 'Premium_LRS'
   }
 }
-
-resource webApp 'Microsoft.Web/sites@2020-12-01' = {
-  name: appName
-  location: location
-  properties: {
-    serverFarmId: appServicePlan.id
-    httpsOnly: true
-    clientCertEnabled: true
-    azureADAuthEnabled: true
-    siteConfig: {
-      minTlsVersion: '1.2'
-      http20Enabled: true
-    }
-  }
-}
-
-output webAppUrl string = webApp.properties.defaultHostName
