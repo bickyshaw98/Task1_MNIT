@@ -15,7 +15,7 @@ resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
       defaultAction: 'Deny' 
     }
     trustedMicrosoftServices: {
-      services: 'AzureServices'
+      services: 'AzureServices' // Enable Trusted Microsoft Services for Azure services
     }
   }
   sku: {
