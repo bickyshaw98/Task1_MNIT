@@ -32,7 +32,7 @@ jobs:
         working-directory: '${{github.workspace}}/actions/bicep'
         run: checkov --directory .
           
-      - name: Run Checkov
+      - name: Run custom Checkov
         working-directory: '${{github.workspace}}/actions/bicep'
         run: checkov -d . --external-checks-dir ../custom-checks/custom_checks.py
  
