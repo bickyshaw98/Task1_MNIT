@@ -14,6 +14,9 @@ resource storageaccount 'Microsoft.Storage/storageAccounts@2021-02-01' = {
     networkAcls: {
       defaultAction: 'Deny' 
     }
+    trustedMicrosoftServices: {
+      services: 'AzureServices'
+    }
   }
   sku: {
     name: 'Premium_LRS'
