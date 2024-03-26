@@ -1,21 +1,23 @@
-from checkov.common.models.enums import CheckResult, CheckCategories
-from checkov.terraform.checks.resource.base_resource_value_check import BaseResourceValueCheck
+import re
 
+class StorageAccountNameValidator:
+    def __init__(self, storage_account_name):
+        self.storage_account_name = storage_account_name
 
-class StorageAccountNameCheck(BaseResourceValueCheck):
-    def __init__(self):
-        name = "Ensure storage account name follows naming convention"
-        id = "CUSTOM001"
-        supported_resources = ['azurerm_storage_account']
-        categories = [CheckCategories.CONVENTION]
-        super().__init__(name=name, id=id, categories=categories, supported_resources=supported_resources)
+    def validate_name(self):
+        if not self.storage_account_name.startswith('sa-'):
+            return False
+        return True
 
-    def scan_resource_conf(self, conf):
-        if 'name' in conf:
-            storage_account_name = conf['name']
-            if not storage_account_name.startswith('sa-'):
-                return CheckResult.FAILED
-        return CheckResult.PASSED
+def main():
+    # Example Bicep resource configuration
+    storage_account_name = 'sa-example'
+    
+    validator = StorageAccountNameValidator(storage_account_name)
+    if validator.validate_name():
+        print("Storage account name follows naming convention.")
+    else:
+        print("Storage account name does not follow naming convention.")
 
-
-check = StorageAccountNameCheck()
+if __name__ == "__main__":
+    main()
