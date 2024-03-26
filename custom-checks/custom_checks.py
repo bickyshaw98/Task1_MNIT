@@ -1,5 +1,5 @@
 import re
-
+storage_account_name = "st12mskuexszw4"
 class StorageAccountNameValidator:
     def __init__(self, storage_account_name):
         self.storage_account_name = storage_account_name
