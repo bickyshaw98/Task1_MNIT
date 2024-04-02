@@ -1,4 +1,4 @@
-templateFile="./EDIAM/bicep/rg.bicep"
+templateFile="./TASK1_MNIT/bicep/rg.bicep"
 uuid="$(cat /proc/sys/kernel/random/uuid)"
 location="centralus"
 parameterFile="./EDIAM/bicep/rg_parameters.json"
