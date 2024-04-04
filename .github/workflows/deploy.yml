@@ -1,1 +1,6 @@
-#locking push to the branch..
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+  push:
+    branches:
+      - main
