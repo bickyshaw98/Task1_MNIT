@@ -1,5 +1,5 @@
+#git issue
 name: build storage account bicep
-
 
 # Controls when the workflow will run
 on:
