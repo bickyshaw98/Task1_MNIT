@@ -1,44 +1,32 @@
-name: Deploy Ediam Resources
+#commenting for git issue.
+
+name: build storage account bicep
+
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ "main" ]
-  #pull_request:
-  #  branches: [ "IaC-work" ]
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
- # Permissions setting indicates that an access token has to be used
-permissions:
-    id-token: write
-    contents: read
-
-# Declare env veriabled to use 
-#### Resource group name needs to calculat as per rg.bicep using parameters
-env:    
-    DEV_SUBSCRIPTION_ID: 112b128e-2295-43f5-aebe-b882b8d039d3
-    
-    
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-     build_validate_create_RGIAC:
-       # The type of runner that the job will run on
-       #runs-on: windows-latest
-       name: build and validate and create EDIAM Resource_Group on Dev
-       #needs: [create-AZ-Connection]
-       runs-on: ubuntu-latest
-       steps:
-         - name: Checkout self repo/branch
-           uses: actions/checkout@v4
-     
-         - name: Login to Azure
-           uses: azure/login@v1
-           with:
-                creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-         - name: validting RG
-           run: |
-             chmod +x $GITHUB_WORKSPACE/.github/workflows/validate_rg_runner.sh \
-             && $GITHUB_WORKSPACE/.github/workflows/validate_rg_runner.sh
+  # This workflow contains a single job called "build"
+  bicep_build:
+    name: bicep build 
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
