@@ -13,6 +13,6 @@ else
 fi
 
 
-az deployment sub validate --name $uuid --location $location --template-file $templateFile --parameters @$parameterFile --parameters agencyCode=${MY_ENV_VAR}
+az deployment sub validate --name $uuid --location $location --template-file $templateFile --parameters $parameterFile --parameters agencyCode=${MY_ENV_VAR}
 echo "agencyCode=${MY_ENV_VAR}"
-az deployment sub what-if --name $uuid --location $location --template-file $templateFile --parameters @$parameterFile --parameters agencyCode=${MY_ENV_VAR}
+az deployment sub what-if --name $uuid --location $location --template-file $templateFile --parameters $parameterFile agencyCode=${MY_ENV_VAR}
