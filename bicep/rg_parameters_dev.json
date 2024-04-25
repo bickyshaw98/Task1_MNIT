@@ -7,6 +7,7 @@
             "apiVersion": "2018-05-01",
             "name": "speed",
             "envCode": "d",
+            "agencyCode": "e37",
             "numberCode": "001",
             "location": "centralus",
             "tags": {
