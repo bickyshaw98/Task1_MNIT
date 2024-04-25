@@ -14,9 +14,8 @@ fi
 
 
 az deployment sub validate --name $uuid --location $location --template-file $templateFile \
-    --parameters $parameterFile \
-    --parameters agencyCode=e37
+    --parameters $parameterFile 
+    
 
 az deployment sub what-if --name $uuid --location $location --template-file $templateFile \
-    --parameters $parameterFile \
-    --parameters agencyCode=e37
+    --parameters $parameterFile 
