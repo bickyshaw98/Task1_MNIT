@@ -21,7 +21,7 @@ permissions:
 #### Resource group name needs to calculat as per rg.bicep using parameters
 env:    
     DEV_SUBSCRIPTION_ID: 112b128e-2295-43f5-aebe-b882b8d039d3
-    
+    MY_ENV_VAR: ${{vars.MY_ENV_VAR}}
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -40,4 +40,4 @@ jobs:
            with:
                 creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
          - name: validting RG
-           run: echo "hello world" 
+           run: echo "$MY_ENV_VAR" 
