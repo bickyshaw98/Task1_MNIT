@@ -40,4 +40,6 @@ jobs:
            with:
                 creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
          - name: validting RG
-           run: echo "$MY_ENV_VAR" 
+           run: 
+             chmod +x ${{github.workspace}}/.github/workflows/validate_rg_runner.sh
+             ${{github.workspace}}/.github/workflows/validate_rg_runner.sh $MY_ENV_VAR
