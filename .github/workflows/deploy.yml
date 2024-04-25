@@ -41,4 +41,4 @@ jobs:
          - name: validting RG
            run: |
              chmod +x $GITHUB_WORKSPACE/.github/workflows/validate_rg_runner.sh 
-             $GITHUB_WORKSPACE/.github/workflows/validate_rg_runner.sh dev
+             $GITHUB_WORKSPACE/.github/workflows/validate_rg_runner.sh
