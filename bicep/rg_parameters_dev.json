@@ -2,22 +2,18 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "agencyCode": {
-        "value": "e37"
+      "location": {
+        "value": "West US"
       },
-      "envCode": {
-        "value": "d"
-      },
-      "applicationName": {
-        "value": "mdeorg"
+      "rgName": {
+        "value": "MyResourceGroup"
       },
       "tags": {
         "value": {
-          "applicationName": " MDE Org Suite (mdeorg) ",
-          "ChargeCode": "037311",
-          "DataProtectionCategorization": "Low",
-          "AppPriority": "P3"
+          "environment": "Production",
+          "department": "IT"
         }
       }
     }
   }
+  
