@@ -1,23 +1,23 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
-    "resources": [
-        {
-            "type": "Microsoft.Resources/resourceGroups",
-            "apiVersion": "2018-05-01",
-            "name": "speed",
-            "envCode": "d",
-            "agencyCode": "e37",
-            "numberCode": "001",
-            "location": "centralus",
-            "tags": {
-                "ApplicationName": "Education Identity Access Management sytem (EDIAM)",
-                "AppPriority": "P3",
-                "DataProtectionCategorization": "High",
-                "DataProtectionCategoryHigh": "FERPA",
-                "ChargeCode": "037028"
-            },
-            "properties": {}
+    "parameters": {
+      "agencyCode": {
+        "value": "e37"
+      },
+      "envCode": {
+        "value": "d"
+      },
+      "applicationName": {
+        "value": "mdeorg"
+      },
+      "tags": {
+        "value": {
+          "applicationName": " MDE Org Suite (mdeorg) ",
+          "ChargeCode": "037311",
+          "DataProtectionCategorization": "Low",
+          "AppPriority": "P3"
         }
-    ]
-}
+      }
+    }
+  }
