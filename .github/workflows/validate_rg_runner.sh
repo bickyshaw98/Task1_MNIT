@@ -9,11 +9,11 @@ rgName=$1
 
 az deployment sub validate --name $uuid --location $location --template-file $templateFile \
     --parameters $parameterFile \
-    --parameters $rgName
+    --parameters rgName=$rgName
 
 az deployment sub what-if --name $uuid --location $location --template-file $templateFile \
     --parameters $parameterFile \
-    --parameters $rgName
+    --parameters rgName=$rgName
 
 echo "$rgName"
 
