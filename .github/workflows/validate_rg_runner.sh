@@ -1,6 +1,7 @@
 templateFile="./bicep/rg.bicep"
 uuid="$(cat /proc/sys/kernel/random/uuid)"
 location="centralus"
+agencyCode=$2
 
 environment=$1
 if [ "$environment" == "dev" ]; then
@@ -14,5 +15,5 @@ fi
 
 
 az deployment sub validate --name $uuid --location $location --template-file $templateFile --parameters $parameterFile --parameters agencyCode=${MY_ENV_VAR}
-echo "agencyCode=${MY_ENV_VAR}"
+echo "$agencyCode"
 az deployment sub what-if --name $uuid --location $location --template-file $templateFile --parameters $parameterFile agencyCode=${MY_ENV_VAR}
