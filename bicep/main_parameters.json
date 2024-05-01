@@ -1,0 +1,52 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "agencyCode": {
+        "value": "h58"
+      },
+      "envCode": {
+        "value": "d"
+      },
+      "applicationName": {
+        "value": "apim"
+      },
+      "apiManagementServiceName": {
+          "value": "apiManagement"
+      },
+      "publisherEmail": {
+          "value": "bicky.shaw988@outlook.com"
+      },
+      "publisherName": {
+        "value": "Bicky Shaw"
+      },
+      "sku": {
+        "value": "Standard"
+      },
+      "skuCount": {
+          "value": 2
+      },
+      "diagnosticSettingName": {
+         "value": "apimDiagnosticSettingName"
+      },
+      "diagnosticLogsRetentionInDays":{
+        "value": 30
+      },
+      "lockName":{
+        "value": "apimLock"
+      },
+      "tags": {
+        "value": {
+          "ApplicationName": "Shared Service",
+          "ChargeCode": "037485",
+          "DataProtectionCategorization": "High",
+          "DataProtectionCategoryHigh": "FERPA",
+          "AppPriority": "P3",
+          "environment": "development"
+        }
+      }
+    }
+  }
+  
+
+  

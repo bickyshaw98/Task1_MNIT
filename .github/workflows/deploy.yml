@@ -1,10 +1,10 @@
-name: Deploy Ediam Resources
+name: Deploy API Management Resources
 #adding code to complete poc
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: [ "apiManagement_deploy" ]
   pull_request:
     branches-ignore:
       - '*'
@@ -21,14 +21,13 @@ permissions:
 #### Resource group name needs to calculat as per rg.bicep using parameters
 env:    
     DEV_SUBSCRIPTION_ID: 112b128e-2295-43f5-aebe-b882b8d039d3
-    MY_ENV_VAR: ${{vars.MY_ENV_VAR}}
     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-     build_validate_create_RGIAC:
+     build_validate_create_apiManagemnt:
        # The type of runner that the job will run on
        #runs-on: windows-latest
-       name: build and validate and create EDIAM Resource_Group on Dev
+       name: build and validate and create API Management
        #needs: [create-AZ-Connection]
        runs-on: ubuntu-latest
        steps:
@@ -39,9 +38,12 @@ jobs:
            uses: azure/login@v1
            with:
                 creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-         - name: Validating RG
+         - name: Validating API Managemnt
            run: |
-             chmod +x ${{ github.workspace }}/.github/workflows/validate_rg_runner.sh
-             ${{ github.workspace }}/.github/workflows/validate_rg_runner.sh "${{ env.MY_ENV_VAR }}"
-             echo "${{ env.MY_ENV_VAR }}"
+             chmod +x ${{ github.workspace }}/.github/workflows/scripts/validate_apiManagement_runner.sh
+             ${{ github.workspace }}/.github/workflows/scripts/validate_apiManagement_runner.sh
+         - name: Deploying API Managemnt
+           run: |
+             chmod +x ${{ github.workspace }}/.github/workflows/scripts/deploy_apiManagement_runner.sh
+             ${{ github.workspace }}/.github/workflows/scripts/deploy_apiManagement_runner.sh
               
