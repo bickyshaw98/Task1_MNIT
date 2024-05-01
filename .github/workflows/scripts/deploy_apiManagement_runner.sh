@@ -5,4 +5,4 @@ resource_group="e37d-sharedservice-rg-001"
 
 parameterFile="./bicep/main_parameters.json"
 
-az deployment group create --name $uuid --resource-group $resource_group --template-file $templateFile --parameters $parameter_file
+az deployment group create --name $uuid --resource-group $resource_group --template-file $templateFile --parameters $parameterFile

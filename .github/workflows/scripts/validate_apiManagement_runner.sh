@@ -7,5 +7,5 @@ parameterFile="./bicep/main_parameters.json"
 
 az deployment group validate --name $uuid --resource-group $resource_group --template-file $template_file --parameters $parameterFile
     
-az deployment group what-if --name $uuid --resource-group $resource_group --template-file $template_file --parameters $parameterFile \
+az deployment group what-if --name $uuid --resource-group $resource_group --template-file $template_file --parameters $parameterFile 
     
