@@ -40,7 +40,7 @@ jobs:
           
 
       - name: 'deploy webapp account bicep'
-        working-directory: '${{github.workspace}}/actions/bicep'
+        working-directory: '${{github.workspace}}/bicep'
         run: |
           az deployment group create --resource-group demo-rg --template-file './webapp.bicep' --parameters @parameters.json
 
