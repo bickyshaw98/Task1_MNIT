@@ -19,6 +19,12 @@ param appServicePlanName string
 param location string
 param webAppName string
 
+param appSettingsObj object = {
+  Setting1: 'Value1'
+  Setting2: 'Value2'
+}
+
+
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2019-08-01' = {
   name: appServicePlanName
@@ -39,6 +45,18 @@ resource webApp 'Microsoft.Web/sites@2019-08-01' = {
   kind: 'app'
   properties: {
     serverFarmId: appServicePlan.id
+    siteConfig: {
+      appSettings: [
+        {
+          name: 'Setting1'
+          value: 'Value1'
+        }
+        {
+          name: 'Setting2'
+          value: 'Value2'
+        }
+      ]
+    }
   }
 }
 
