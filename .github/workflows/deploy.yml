@@ -37,7 +37,11 @@ jobs:
         run: |
           az deployment group validate --resource-group demo-rg --template-file './webapp.bicep' --parameters @parameters.json
 
-          
+      - name: 'what-if webapp account bicep'
+        working-directory: '${{github.workspace}}/bicep'
+        run: |
+          az deployment group what-if --resource-group demo-rg --template-file './webapp.bicep' --parameters parameters.json
+
 
       - name: 'deploy webapp account bicep'
         working-directory: '${{github.workspace}}/bicep'

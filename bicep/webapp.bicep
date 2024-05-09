@@ -19,10 +19,7 @@ param appServicePlanName string
 param location string
 param webAppName string
 
-param appSettingsObj object = {
-  Setting1: 'Value1'
-  Setting2: 'Value2'
-}
+
 
 
 
