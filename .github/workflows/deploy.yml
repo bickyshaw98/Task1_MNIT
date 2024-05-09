@@ -1,14 +1,12 @@
 # This is a basic workflow to help you deploy multiple bicep resource.
-name: build storage account bicep
+name: build webapp account bicep
 
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ deploy_multiple_bicep_resource_delete_one_specific_resource ]
-  pull_request:
-    branches: [ none ]
+    branches: [ manual_changes_poc ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -16,7 +14,6 @@ on:
 
 env:
   AZURE_RESOURCEGROUP_NAME: demo-rg
-  ENVIRONMENT_LOCATION: EastUS
 
 jobs:
  # This workflow contains a single job called "build"
@@ -35,27 +32,29 @@ jobs:
         with:
             creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
 
-      - name: 'deploy storage account bicep'
+      - name: 'validate webapp account bicep'
+        working-directory: '${{github.workspace}}/bicep'
+        run: |
+          az deployment group validate --resource-group demo-rg --template-file './webapp.bicep' --parameters @parameters.json
+
+          
+
+      - name: 'deploy webapp account bicep'
         working-directory: '${{github.workspace}}/actions/bicep'
         run: |
-          az bicep build --file './storage.bicep'
+          az deployment group create --resource-group demo-rg --template-file './webapp.bicep' --parameters @parameters.json
 
-      - name: 'deploy storage account bicep'
-        working-directory: '${{github.workspace}}/actions/bicep'
-        run: |
-          az deployment group validate --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
 
-#          
-#
-#      - name: 'deploy storage account bicep'
+
+
+
+
+
+
+#      - name: 'deploy webapp account bicep'
 #        working-directory: '${{github.workspace}}/actions/bicep'
 #        run: |
-#          az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
-#
-#      - name: 'deploy storage account bicep'
-#        working-directory: '${{github.workspace}}/actions/bicep'
-#        run: |
-#          az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+#          az deployment group create --resource-group demo-rg --template-file './webapp.bicep' --parameters @parameters.json
           
       
       
@@ -76,13 +75,13 @@ jobs:
 #        with:
 #            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
 #
-#      - name: 'deploy storage account bicep'
+#      - name: 'deploy webapp account bicep'
 #        working-directory: '${{github.workspace}}/actions/bicep'
 #        run: |
-#          az deployment group create --resource-group demo-rg --template-file './storage.bicep' --parameters @parameters.json
+#          az deployment group create --resource-group demo-rg --template-file './webapp.bicep' --parameters @parameters.json
 #
-#  delete_storage:
-#    name: delete storage account 
+#  delete_webapp:
+#    name: delete webapp account 
 #    runs-on: ubuntu-latest
 #    needs: [dev_deployment]
 #    environment: delete
@@ -95,29 +94,29 @@ jobs:
 #        with:
 #            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
 #
-#      - name: 'delete a storage account'
+#      - name: 'delete a webapp account'
 #        working-directory: '${{github.workspace}}/actions/bicep'
 #        run: |
-#          storageAccountName=$(jq -r '.parameters.storageAccountName.value' parameters.json)
+#          webappAccountName=$(jq -r '.parameters.webappAccountName.value' parameters.json)
 #          mapfile -t resourceGroups < <(az group list --query "[].name" --output tsv)
 #      
 #          for rg in "${resourceGroups[@]}"; do
 #              echo "Resource Group: $rg"
 #          
-#              mapfile -t storageAccounts < <(az storage account list --resource-group "$rg" --query "[].name" --output tsv)
+#              mapfile -t webappAccounts < <(az webapp account list --resource-group "$rg" --query "[].name" --output tsv)
 #          
-#              for sa in "${storageAccounts[@]}"; do
+#              for sa in "${webappAccounts[@]}"; do
 #                                   
-#                  echo "  Storage Account Found: $sa, Storage Account To be deleted: $storageAccountName"
-#                  if [[ "$sa" == $storageAccountName ]]; then
-#                      echo "  Storage Account to delete found: $storageAccountName"
-#                      az storage account delete --name $storageAccountName --resource-group "$rg" --yes
+#                  echo "  webapp Account Found: $sa, webapp Account To be deleted: $webappAccountName"
+#                  if [[ "$sa" == $webappAccountName ]]; then
+#                      echo "  webapp Account to delete found: $webappAccountName"
+#                      az webapp account delete --name $webappAccountName --resource-group "$rg" --yes
 #                  else
-#                      echo "  Storage Account to delete not found in $rg"
+#                      echo "  webapp Account to delete not found in $rg"
 #                  fi
 #          
-#                  # Add your logic to delete storage accounts here
-#                  # az storage account delete --name "$sa" --resource-group "$rg" --yes
+#                  # Add your logic to delete webapp accounts here
+#                  # az webapp account delete --name "$sa" --resource-group "$rg" --yes
 #              done
 #          done
 
