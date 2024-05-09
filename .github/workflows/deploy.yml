@@ -47,7 +47,10 @@ jobs:
         working-directory: '${{github.workspace}}/bicep'
         run: |
           az deployment group create --resource-group demo-rg --template-file './webapp.bicep' --parameters @parameters.json
-
+          
+      - name: List Resources
+        run: |
+          az resource list -g ${{ env.AZURE_RESOURCEGROUP_NAME }} --output table
 
 
 
