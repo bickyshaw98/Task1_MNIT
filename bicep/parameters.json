@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "appServicePlanName": {
-      "value": "appServicePlan-POC"
+      "value": "appServicePlan1-POC"
     },
     "webAppName": {
-      "value": "webAppMNIT-POC"
+      "value": "webAppMNIT1-POC"
     },
     "location": {
       "value": "west Europe"
