@@ -17,6 +17,8 @@
 
 param appServicePlanName string
 param location string
+param webAppName string
+
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2019-08-01' = {
   name: appServicePlanName
