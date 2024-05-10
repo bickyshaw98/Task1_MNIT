@@ -62,7 +62,7 @@ jobs:
         working-directory: '${{github.workspace}}/bicep'
         run: |
           currentConfig=$(az webapp config appsettings list --name webAppMNIT2-POC --resource-group demo-rg --query "[].{name:name,value:value}" --output json)
-        
+          echo "$currentConfig"
           az deployment group create --resource-group demo-rg --template-file './webapp.bicep' --parameters @parameters.json
           
           az webapp config appsettings set --name webAppMNIT2-POC --resource-group demo-rg --settings "$currentConfig"
