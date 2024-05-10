@@ -30,28 +30,15 @@ jobs:
         with:
             creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
             
+      - name: Setup Azure PowerShell
+        uses: azure/setup-azure-powershell@v1
+        with:
+          azcliversion: latestversion
+    
       - name: Validate App Service Configuration
-        working-directory: '${{github.workspace}}/bicep'
         id: validate_config
         run: |
-          # Get current App Service configuration
-          $currentConfig = Get-AzWebApp -ResourceGroupName demo-rg -Name webAppMNIT2-POC | ConvertTo-Json
-  
-          # Print current configuration for debugging (optional)
-          Write-Output $currentConfig
-  
-          # Compare with expected configuration
-          $expectedConfig = Get-Content -Path webapp.bicep | ConvertFrom-Json
-  
-          # Print expected configuration for debugging (optional)
-          Write-Output $expectedConfig
-  
-          if ($currentConfig -ne $expectedConfig) {
-            Write-Output "Manual changes detected in App Service configuration. Aborting deployment."
-            exit 1
-          } else {
-            Write-Output "No manual changes detected. Proceeding with deployment."
-          }
+          pwsh -File ./scripts/manual_changes_validate.ps1
 
  # This workflow contains a single job called "build"
   bicep_build:
