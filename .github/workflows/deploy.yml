@@ -34,20 +34,21 @@ jobs:
         working-directory: '${{github.workspace}}/bicep'
         id: validate_config
         run: |
-          # Get the current state of the App Service
-          currentConfig=$(az webapp show --resource-group demo-rg --name webAppMNIT2-POC --query "{name: name, appSettings: appSettings}" -o json)
-          echo $currentConfig
-          # Compare current state with expected state in Bicep template
-          expectedConfig=$(cat webapp.bicep | grep -A 1 'Microsoft.Web/sites@' | grep -v 'Microsoft.Web/sites@')
+          $currentConfig = Get-AzWebApp -ResourceGroupName demo-rg -Name webAppMNIT2-POC | ConvertTo-Json
           
-          echo $expectedConfig
+          echo "$currentConfig"
 
-          if [ "$currentConfig" != "$expectedConfig" ]; then
-            echo "Manual changes detected in App Service configuration. Aborting deployment."
+          # Compare with expected configuration
+          $expectedConfig = Get-Content -Path webapp.bicep | ConvertFrom-Json
+          
+          echo "$expectedConfig"
+
+          if ($currentConfig -ne $expectedConfig) {
+            Write-Output "Manual changes detected in App Service configuration. Aborting deployment."
             exit 1
-          else
-            echo "No manual changes detected. Proceeding with deployment."
-          fi
+          } else {
+            Write-Output "No manual changes detected. Proceeding with deployment."
+          }
 
  # This workflow contains a single job called "build"
   bicep_build:
