@@ -40,6 +40,9 @@ resource webApp 'Microsoft.Web/sites@2019-08-01' = {
   name: webAppName
   location: location
   kind: 'app'
+  tags: {
+    manualChanges: 'manualChanges'
+  }
   properties: {
     serverFarmId: appServicePlan.id
     siteConfig: {
