@@ -34,15 +34,18 @@ jobs:
         working-directory: '${{github.workspace}}/bicep'
         id: validate_config
         run: |
+          # Get current App Service configuration
           $currentConfig = Get-AzWebApp -ResourceGroupName demo-rg -Name webAppMNIT2-POC | ConvertTo-Json
-          
-          echo "$currentConfig"
-
+  
+          # Print current configuration for debugging (optional)
+          Write-Output $currentConfig
+  
           # Compare with expected configuration
           $expectedConfig = Get-Content -Path webapp.bicep | ConvertFrom-Json
-          
-          echo "$expectedConfig"
-
+  
+          # Print expected configuration for debugging (optional)
+          Write-Output $expectedConfig
+  
           if ($currentConfig -ne $expectedConfig) {
             Write-Output "Manual changes detected in App Service configuration. Aborting deployment."
             exit 1
