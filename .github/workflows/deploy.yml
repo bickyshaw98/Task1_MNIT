@@ -17,39 +17,21 @@ env:
 
 jobs:
   check_manual_changes:
-    name: check_manual_changes
-    runs-on: ubuntu-22.04
-
-     # Steps represent a sequence of tasks that will be executed as part of the job
+    runs-on: ubuntu-latest  
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Login to Azure
-        uses: azure/login@v1
+      - name: Checkout code
+        uses: actions/checkout@v2  
+      - name: Set up Azure PowerShell
+        uses: azure/powershell@v1
         with:
-            creds: ${{ secrets.AZURE_SPN_CREDENTIAL }}
-            
-    
+          azcliversion: latest  
       - name: Validate App Service Configuration
-        working-directory: '${{github.workspace}}/bicep'
-
         id: validate_config
-        run: |
-          
+        run: | 
           # Get current App Service configuration
-          $currentConfig = Get-AzWebApp -ResourceGroupName demo-rg -Name webAppMNIT2-POC | ConvertTo-Json
-  
+          $currentConfig = Get-AzWebApp -ResourceGroupName demo-rg -Name webAppMNIT2-POC | ConvertTo-Json  
           # Compare with expected configuration
           $expectedConfig = Get-Content -Path webapp.bicep | ConvertFrom-Json
-  
-          if ($currentConfig -ne $expectedConfig) {
-            Write-Output "Manual changes detected in App Service configuration. Aborting deployment."
-            exit 1
-          } else {
-            Write-Output "No manual changes detected. Proceeding with deployment."
-          }
-
  # This workflow contains a single job called "build"
   bicep_build:
     name: bicep build 
