@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "appServicePlanName": {
-      "value": "appServicePlan-POC"
+      "value": "appServicePlan2-POC"
     },
     "webAppName": {
-      "value": "webAppMNIT-POC"
+      "value": "webAppMNIT2-POC"
     },
     "location": {
       "value": "centralus"
