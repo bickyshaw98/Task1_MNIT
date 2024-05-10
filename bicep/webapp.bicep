@@ -46,7 +46,7 @@ resource webApp 'Microsoft.Web/sites@2019-08-01' = {
       appSettings: [
         {
           name: 'Setting1'
-          value: 'Value1'
+          value: 'manual_changes_poc'
         }
         {
           name: 'Setting2'
