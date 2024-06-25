@@ -1,4 +1,4 @@
-## This is a basic workflow to help you deploy multiple bicep resource.
+# This is a basic workflow to help you deploy multiple bicep resource.
 name: build webapp account bicep
 #commenting to run the pipeline
 
