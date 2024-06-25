@@ -66,9 +66,9 @@ jobs:
 #          az webapp config appsettings set --name webAppMNIT2-POC --resource-group demo-rg --settings "$currentConfig"
 #          currentConfig=$(az webapp config appsettings list --name webAppMNIT2-POC --resource-group demo-rg --query "[].{name:name,value:value}" --output json)
 #          echo "$currentConfig"
-      - name: List Resources
-        run: |
-          az resource list -g ${{ env.AZURE_RESOURCEGROUP_NAME }} --output table
+#      - name: List Resources
+#        run: |
+#         az resource list -g ${{ env.AZURE_RESOURCEGROUP_NAME }} --output table
 
 
 
